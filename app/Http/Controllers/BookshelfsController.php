@@ -36,7 +36,18 @@ class BookshelfsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required|unique:bookshelfs'
+        ]);
+        DB::table('bookshelfs')->insert([
+            'name' => $request->name,
+            'created_at' => date('Y-m-d H:i:s')
+        ]);
+        return redirect('/bookshelfs')->with('flash', [
+            'icon' => 'success',
+            'title' => 'Success',
+            'text' => 'Data Berhasil Ditambahkan!'
+        ]);
     }
 
     /**
@@ -45,42 +56,7 @@ class BookshelfsController extends Controller
      * @param  \App\Models\Bookshelfs  $bookshelfs
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function listOfBooks($id)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Bookshelfs  $bookshelfs
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Bookshelfs  $bookshelfs
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Bookshelfs  $bookshelfs
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
     }
 }

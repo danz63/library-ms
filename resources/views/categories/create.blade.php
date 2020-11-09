@@ -1,5 +1,5 @@
 @extends('template/template')
-@section('title','Bokshelfs | Library Management System')
+@section('title','Kategori Buku | Library Management System')
 @section('content')
 <div class="gradient h-10"></div>
 <section class="bg-white pb-8">
@@ -7,18 +7,18 @@
         @include('svgs.wave')
     </div>
     <div class="container max-w-5xl mx-auto m-8">
-        <h1 class="w-full my-2 text-5xl font-bold leading-tight text-center text-gray-800">Form Rak</h1>
+        <h1 class="w-full my-2 text-5xl font-bold leading-tight text-center text-gray-800">Form Kategori</h1>
         <div class="w-full mb-4">
             <div class="h-1 mx-auto gradient w-64 opacity-25 my-0 py-0 rounded-t"></div>
         </div>
         <div class="d-block">
             <div
                 class="w-full md:w-3/5 mx-auto sm:items-center text-center md:text-left border p-5 rounded bg-gray-100">
-                <form action="{{ url('/bookshelfs/store') }}" method="POST" class="md:w-full sm:w-full sm:mx-auto">
+                <form action="{{ url('/categories/store') }}" method="POST" class="md:w-full sm:w-full sm:mx-auto">
                     @csrf
                     <div class="mb-4">
                         <label class="block text-sm font-bold mb-2 uppercase text-gray-700" for="name">
-                            Nama Rak
+                            Nama Kategori
                         </label>
                         <input
                             class="shadow appearance-none border 

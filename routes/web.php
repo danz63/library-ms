@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\AccessController;
+use App\Http\Controllers\CategoriesController;
+use App\Http\Controllers\BooksController;
 use App\Http\Controllers\BookshelfsController;
 use App\Http\Controllers\PagesController;
 use App\Http\Controllers\PhonesController;
@@ -47,3 +49,24 @@ Route::delete('/phone/destroy', [PhonesController::class, 'destroy']);
 // Penanganan Rak Buku (Bookshelfs)
 Route::get('/bookshelfs', [BookshelfsController::class, 'index']);
 Route::get('/bookshelfs/create', [BookshelfsController::class, 'create']);
+Route::post('/bookshelfs/store', [BookshelfsController::class, 'store']);
+
+
+// Penanganan Kategori Buku (Categories)
+Route::get('/categories', [CategoriesController::class, 'index']);
+Route::get('/categories/create', [CategoriesController::class, 'create']);
+Route::get('/categories/edit/{id}', [CategoriesController::class, 'edit']);
+Route::post('/categories/store', [CategoriesController::class, 'store']);
+Route::patch('/categories/update', [CategoriesController::class, 'update']);
+
+
+// Penanganan Penerbit Buku (Publisers)
+Route::get('/publishers', [PublishersController::class, 'index']);
+Route::get('/publishers/create', [PublishersController::class, 'create']);
+Route::post('/publishers/store', [PublishersController::class, 'store']);
+
+
+// Penanganan Buku (Books)
+Route::get('/books', [BooksController::class, 'index']);
+Route::get('/books/create', [BooksController::class, 'create']);
+Route::post('/books/store', [BooksController::class, 'store']);

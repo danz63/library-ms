@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
-class BooksController extends Controller
+class CategoriesController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,18 +14,8 @@ class BooksController extends Controller
      */
     public function index()
     {
-        $books = [
-            [
-                'id' => 1,
-                'title' => 'Rekayasa Perangkat Lunak',
-                'publisher' => 'Informatika',
-                'year' => 2018
-            ]
-        ];
-        $books = json_encode($books);
-        $books = json_decode($books);
-        // dd($books);
-        return view('books.index', ['books' => $books]);
+        $categories = DB::table('categories')->get();
+        return view('categories.index', ['categories' => $categories]);
     }
 
     /**
@@ -35,7 +25,7 @@ class BooksController extends Controller
      */
     public function create()
     {
-        //
+        return view('categories.create');
     }
 
     /**
@@ -46,13 +36,25 @@ class BooksController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required|unique:categories'
+        ]);
+        $data = [
+            'name' => $request->name,
+            'created_at' => date('Y-m-d H:i:s')
+        ];
+        DB::table('categories')->insert($data);
+        return redirect('/categories')->with('flash', [
+            'icon' => 'success',
+            'title' => 'Success',
+            'text' => 'Data Berhasil Ditambahkan!'
+        ]);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Books  $book
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -63,7 +65,7 @@ class BooksController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Books  $book
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -75,10 +77,10 @@ class BooksController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Books  $book
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
         //
     }
@@ -86,7 +88,7 @@ class BooksController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Books  $book
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)

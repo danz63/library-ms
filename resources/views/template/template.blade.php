@@ -60,13 +60,13 @@
                                 </svg>
                             </button>
                             <ul class="dropdown-menu absolute py-1 hidden rounded bg-white shadow-outline">
-                                <li>
-                                    <a class="text-black no-underline hover:text-gray-800 hover:bg-gray-300 hover:text-underline block whitespace-no-wrap py-2 pr-4 pl-2 "
-                                        href="{{ url('/books') }}"><i class="fas fa-fw fa-atlas mr-1"></i>Daftar Buku
-                                    </a>
-                                </li>
                                 @if (session('status')==='login')
                                 @if (session('access_id')=='1')
+                                <li>
+                                    <a class="text-black no-underline hover:text-gray-800 hover:bg-gray-300 hover:text-underline block whitespace-no-wrap py-2 pr-4 pl-2 "
+                                        href="{{ url('/books') }}"><i class="fas fa-fw fa-atlas mr-1"></i>Buku
+                                    </a>
+                                </li>
                                 <li>
                                     <a class="text-black no-underline hover:text-gray-800 hover:bg-gray-300 hover:text-underline block whitespace-no-wrap py-2 pr-4 pl-2 "
                                         href="{{ url('/bookshelfs') }}"><i class="fas fa-fw fa-layer-group mr-1"></i>Rak
@@ -74,10 +74,31 @@
                                 </li>
                                 <li>
                                     <a class="text-black no-underline hover:text-gray-800 hover:bg-gray-300 hover:text-underline block whitespace-no-wrap py-2 pr-4 pl-2 "
-                                        href="{{ url('/books') }}"><i class="fas fa-fw fa-book-reader mr-1"></i>Pinjaman
+                                        href="{{ url('/categories') }}"><i class="fas fa-fw fa-tag mr-1"></i>Kategori
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="text-black no-underline hover:text-gray-800 hover:bg-gray-300 hover:text-underline block whitespace-no-wrap py-2 pr-4 pl-2 "
+                                        href="{{ url('/publishers') }}"><i
+                                            class="fas fa-fw fa-building mr-1"></i>Penerbit
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="text-black no-underline hover:text-gray-800 hover:bg-gray-300 hover:text-underline block whitespace-no-wrap py-2 pr-4 pl-2 "
+                                        href="{{ url('/writer') }}"><i class="fas fa-fw fa-user-edit mr-1"></i>Penulis
                                     </a>
                                 </li>
                                 @else
+                                <li>
+                                    <a class="text-black no-underline hover:text-gray-800 hover:bg-gray-300 hover:text-underline block whitespace-no-wrap py-2 pr-4 pl-2 "
+                                        href="{{ url('/books') }}"><i class="fas fa-fw fa-atlas mr-1"></i>Daftar Buku
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="text-black no-underline hover:text-gray-800 hover:bg-gray-300 hover:text-underline block whitespace-no-wrap py-2 pr-4 pl-2 "
+                                        href="{{ url('/books') }}"><i class="fas fa-fw fa-book-reader mr-1"></i>Pinjaman
+                                    </a>
+                                </li>
                                 @endif
                                 @endif
                             </ul>
