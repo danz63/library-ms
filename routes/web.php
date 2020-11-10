@@ -7,6 +7,7 @@ use App\Http\Controllers\BooksController;
 use App\Http\Controllers\BookshelfsController;
 use App\Http\Controllers\PagesController;
 use App\Http\Controllers\PhonesController;
+use App\Http\Controllers\PublishersController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -57,13 +58,17 @@ Route::get('/categories', [CategoriesController::class, 'index']);
 Route::get('/categories/create', [CategoriesController::class, 'create']);
 Route::get('/categories/edit/{id}', [CategoriesController::class, 'edit']);
 Route::post('/categories/store', [CategoriesController::class, 'store']);
-Route::patch('/categories/update', [CategoriesController::class, 'update']);
+Route::patch('/categories/update/{id}', [CategoriesController::class, 'update']);
+Route::delete('/categories/destroy/{id}', [CategoriesController::class, 'destroy']);
 
 
 // Penanganan Penerbit Buku (Publisers)
 Route::get('/publishers', [PublishersController::class, 'index']);
 Route::get('/publishers/create', [PublishersController::class, 'create']);
+Route::get('/publishers/edit/{id}', [PublishersController::class, 'edit']);
 Route::post('/publishers/store', [PublishersController::class, 'store']);
+Route::patch('/publishers/update/{id}', [PublishersController::class, 'update']);
+Route::delete('/publishers/destroy/{id}', [PublishersController::class, 'destroy']);
 
 
 // Penanganan Buku (Books)

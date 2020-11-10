@@ -4,16 +4,18 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateRelationsTable extends Migration
+class CreateTagsTable extends Migration
 {
     /**
      * Run the migrations.
      *
      * @return void
      */
+
+    // Table Relations Between books and category
     public function up()
     {
-        Schema::create('relations', function (Blueprint $table) {
+        Schema::create('tags', function (Blueprint $table) {
             $table->id();
             $table->integer('book_id');
             $table->integer('category_id');
@@ -28,6 +30,6 @@ class CreateRelationsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('relations');
+        Schema::dropIfExists('tags');
     }
 }

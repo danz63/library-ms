@@ -2,10 +2,14 @@ body {
     font-family: 'Source Sans Pro', sans-serif;
 }
 
+/* Main Color */
 .gradient {
     background: linear-gradient(90deg, #2b6cb0 0%, #4fd1c5 100%);
 }
 
+
+
+/* Baloon.css */
 :root {
     --balloon-border-radius: 2px;
     /* --balloon-color: rgba(16, 16, 16, 0.95); */
@@ -250,6 +254,8 @@ p[aria-label][data-balloon-pos] {
     width: 100%;
 }
 
+
+/* CSS Modal */
 .modal {
     transition: opacity 0.25s ease;
 }
@@ -257,4 +263,10 @@ p[aria-label][data-balloon-pos] {
 body.modal-active {
     overflow-x: hidden;
     overflow-y: visible !important;
+}
+
+
+/* CSS table striped */
+table tbody tr:nth-child(even) {
+    background-color: #edf2f7;
 }

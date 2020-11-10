@@ -324,7 +324,25 @@
                 ddm.classList.add("hidden");
             }
         }
-
+        function ConfirmDelete(el,title) {
+        let form = el.parentNode;
+        Swal.fire({
+            title: title,
+            showDenyButton: true,
+            confirmButtonText: `Yakin`,
+            denyButtonText: `Batal`,
+        }).then((result) => {
+            if (result.isConfirmed) {
+                form.submit();
+            } else if (result.isDenied) {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Batal',
+                    text: 'Aksi Dibatalkan'
+                });
+            }
+        })
+    }
     </script>
     @include('js/scroll')
     @yield('script')
@@ -335,7 +353,6 @@
             title: '{{ session('flash')['title'] }}',
             text: '{{ session('flash')['text'] }}'
         });
-
     </script>
     @endif
 </body>

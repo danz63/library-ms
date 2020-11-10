@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-class CategoriesController extends Controller
+class PublishersController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,8 +14,8 @@ class CategoriesController extends Controller
      */
     public function index()
     {
-        $categories = DB::table('categories')->get();
-        return view('categories.index', ['categories' => $categories]);
+        $publishers = DB::table('publishers')->get();
+        return view('publishers.index', ['publishers' => $publishers]);
     }
 
     /**
@@ -25,7 +25,7 @@ class CategoriesController extends Controller
      */
     public function create()
     {
-        return view('categories.create');
+        return view('publishers.create');
     }
 
     /**
@@ -37,20 +37,30 @@ class CategoriesController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required|unique:categories'
+            'name' => 'required|unique:publishers'
         ]);
         $data = [
             'name' => $request->name,
             'created_at' => date('Y-m-d H:i:s')
         ];
-        DB::table('categories')->insert($data);
-        return redirect('/categories')->with('flash', [
+        DB::table('publishers')->insert($data);
+        return redirect('/publishers')->with('flash', [
             'icon' => 'success',
             'title' => 'Success',
             'text' => 'Data Berhasil Ditambahkan!'
         ]);
     }
 
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        //
+    }
 
     /**
      * Show the form for editing the specified resource.
@@ -60,8 +70,10 @@ class CategoriesController extends Controller
      */
     public function edit($id)
     {
-        $category = DB::table('categories')->where('id', '=', $id)->first();
-        return view('categories.edit', ['category' => $category]);
+        $publisher = DB::table('publishers')
+            ->where('id', '=', $id)
+            ->first();
+        return view('publishers.edit', ['publishers' => $publisher]);
     }
 
     /**
@@ -74,16 +86,16 @@ class CategoriesController extends Controller
     public function update(Request $request)
     {
         $request->validate([
-            'name' => 'required|unique:categories'
+            'name' => 'required|unique:publishers'
         ]);
         $data = [
             'name' => $request->name,
             'updated_at' => date('Y-m-d H:i:s')
         ];
-        DB::table('categories')
+        DB::table('publishers')
             ->where('id', '=', $request->id)
             ->update($data);
-        return redirect('/categories')->with('flash', [
+        return redirect('/publishers')->with('flash', [
             'icon' => 'success',
             'title' => 'Success',
             'text' => 'Data Berhasil Diperbaharui!'
@@ -98,20 +110,20 @@ class CategoriesController extends Controller
      */
     public function destroy($id)
     {
-        $check = DB::table('tags')
+        $check = DB::table('publications')
             ->where('book_id', '=', $id)
             ->count();
         if ($check > 0) {
-            return redirect('/categories')->with('flash', [
+            return redirect('/publishers')->with('flash', [
                 'icon' => 'error',
                 'title' => 'Error',
                 'text' => 'Data tidak dapat dihapus'
             ]);
         }
-        DB::table('categories')
+        DB::table('publishers')
             ->where('id', '=', $id)
             ->delete();
-        return redirect('/categories')->with('flash', [
+        return redirect('/publishers')->with('flash', [
             'icon' => 'success',
             'title' => 'Success',
             'text' => 'Data Berhasil Dihapus!'

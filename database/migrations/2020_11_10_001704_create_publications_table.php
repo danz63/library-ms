@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateStoragesTable extends Migration
+class CreatePublicationsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,13 +12,13 @@ class CreateStoragesTable extends Migration
      * @return void
      */
 
-    // Table Relations Between Book And Bookshelfs
+    // Table Realations Between Book And Publisher
     public function up()
     {
-        Schema::create('storages', function (Blueprint $table) {
+        Schema::create('publications', function (Blueprint $table) {
             $table->id();
             $table->integer('book_id');
-            $table->integer('bookshelfs_id');
+            $table->integer('publisher_id');
             $table->timestamps();
         });
     }
@@ -30,6 +30,6 @@ class CreateStoragesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('storages');
+        Schema::dropIfExists('publications');
     }
 }

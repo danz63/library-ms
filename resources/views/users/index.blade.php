@@ -97,7 +97,8 @@
                                     @csrf
                                     @method('delete')
                                     <input type="hidden" name="id" value="{{ $usr->id }}">
-                                    <button onclick="ConfirmDelete(this);" type="button"
+                                    <button onclick="ConfirmDelete(this,'Yakin ingin menghapus User ini?');"
+                                        type="button"
                                         class="bg-red-700 text-gray-200 hover:bg-red-500 px-2 py-1 text-sm rounded mx-1">
                                         <i class="fas fa-sm fa-eraser mr-1"></i>Hapus
                                     </button>
@@ -177,28 +178,6 @@
         getJson(el);
         toggleModal();
     }
-</script>
-<script>
-    function ConfirmDelete(el) {
-        let form = el.parentNode;
-        Swal.fire({
-            title: 'Do you want to delete this User?',
-            showDenyButton: true,
-            confirmButtonText: `Yes`,
-            denyButtonText: `Cancel`,
-        }).then((result) => {
-            if (result.isConfirmed) {
-                form.submit();
-            } else if (result.isDenied) {
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Canceled',
-                    text: 'Action Canceled'
-                });
-            }
-        })
-    }
-
     function responseParse(data) {
         document.getElementById("fullname").innerHTML = ret('Full Name',data.name);
         document.getElementById("image").src = "{{asset('img/upload')}}/" + data.image;
