@@ -1,13 +1,14 @@
 <?php
 
-use App\Http\Controllers\UsersController;
 use App\Http\Controllers\AccessController;
-use App\Http\Controllers\CategoriesController;
 use App\Http\Controllers\BooksController;
 use App\Http\Controllers\BookshelfsController;
+use App\Http\Controllers\CategoriesController;
 use App\Http\Controllers\PagesController;
 use App\Http\Controllers\PhonesController;
 use App\Http\Controllers\PublishersController;
+use App\Http\Controllers\UsersController;
+use App\Http\Controllers\WritersController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -70,6 +71,14 @@ Route::post('/publishers/store', [PublishersController::class, 'store']);
 Route::patch('/publishers/update/{id}', [PublishersController::class, 'update']);
 Route::delete('/publishers/destroy/{id}', [PublishersController::class, 'destroy']);
 
+
+// Penanganan Penulis Buku (Publisers)
+Route::get('/writers', [WritersController::class, 'index']);
+Route::get('/writers/create', [WritersController::class, 'create']);
+Route::get('/writers/edit/{id}', [WritersController::class, 'edit']);
+Route::post('/writers/store', [WritersController::class, 'store']);
+Route::patch('/writers/update/{id}', [WritersController::class, 'update']);
+Route::delete('/writers/destroy/{id}', [WritersController::class, 'destroy']);
 
 // Penanganan Buku (Books)
 Route::get('/books', [BooksController::class, 'index']);

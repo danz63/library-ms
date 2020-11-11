@@ -14,17 +14,8 @@ class BooksController extends Controller
      */
     public function index()
     {
-        $books = [
-            [
-                'id' => 1,
-                'title' => 'Rekayasa Perangkat Lunak',
-                'publisher' => 'Informatika',
-                'year' => 2018
-            ]
-        ];
-        $books = json_encode($books);
-        $books = json_decode($books);
-        // dd($books);
+        $options = $this->getAllOptions();
+        $books = DB::table('books')->get();
         return view('books.index', ['books' => $books]);
     }
 
@@ -35,7 +26,7 @@ class BooksController extends Controller
      */
     public function create()
     {
-        //
+        return view('books/create');
     }
 
     /**
@@ -92,5 +83,14 @@ class BooksController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function getAllOptions()
+    {
+        $res = [
+            'publishers' => DB::table('publishers')->get(),
+            'writers' => DB::table('writers')->get(),
+            'categories' => DB::table('categories')->get()
+        ];
     }
 }

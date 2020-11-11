@@ -85,7 +85,7 @@
                                 </li>
                                 <li>
                                     <a class="text-black no-underline hover:text-gray-800 hover:bg-gray-300 hover:text-underline block whitespace-no-wrap py-2 pr-4 pl-2 "
-                                        href="{{ url('/writer') }}"><i class="fas fa-fw fa-user-edit mr-1"></i>Penulis
+                                        href="{{ url('/writers') }}"><i class="fas fa-fw fa-user-edit mr-1"></i>Penulis
                                     </a>
                                 </li>
                                 @else

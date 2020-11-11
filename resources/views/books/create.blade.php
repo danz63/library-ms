@@ -1,10 +1,10 @@
 @extends('template/template')
-@section('title','Registrasi | Library Management System')
+@section('title','Book | Library Management System')
 @section('content')
 @include('svgs.wave')
 <section class="bg-white py-8">
     <div class="container max-w-5xl mx-auto m-8">
-        <h1 class="w-full my-2 text-5xl font-bold leading-tight text-center text-gray-800">Form Register</h1>
+        <h1 class="w-full my-2 text-5xl font-bold leading-tight text-center text-gray-800">Form Buku</h1>
         <div class="w-full mb-4">
             <div class="h-1 mx-auto gradient w-64 opacity-25 my-0 py-0 rounded-t"></div>
         </div>
@@ -16,52 +16,21 @@
                     @csrf
                     <div class="mb-4">
                         <label class="block text-sm font-bold mb-2 uppercase text-gray-700" for="username">
-                            Username
+                            Judul
                         </label>
                         <input
                             class="shadow appearance-none border 
                             border-blue-500 focus:outline-none focus:shadow-outline rounded w-full py-2 px-3 text-gray-700 leading-tight  transition duration-300"
-                            id="username" name="username" type="text" placeholder="Username" autocomplete="off"
-                            value="{{ old('username') }}" autofocus>
+                            id="title" name="title" type="text" placeholder="Judul" autocomplete="off"
+                            value="{{ old('title') }}" autofocus>
                         <p class="text-red-800 text-xs italic">
-                            @error('username')
+                            @error('title')
                             {{ $message }}
                             @enderror
                             &nbsp;
                         </p>
                     </div>
 
-                    <div class="mb-4">
-                        <label class="block text-sm font-bold mb-2 uppercase text-gray-700" for="password">
-                            Password
-                        </label>
-                        <input class="shadow appearance-none border rounded
-                         border-blue-500 focus:outline-none focus:shadow-outline
-                         border-red-800 w-full py-2 px-3 text-gray-700 leading-tight transition duration-300"
-                            id="password" name="password" type="password" placeholder="Password">
-                        <p class="text-red-800 text-xs italic">
-                            @error('password')
-                            {{ $message }}
-                            @enderror
-                            &nbsp;
-                        </p>
-                    </div>
-                    <div class="mb-4">
-                        <label class="block text-sm font-bold mb-2 uppercase text-gray-700" for="fullname">
-                            Nama Lengkap
-                        </label>
-                        <input class="shadow appearance-none border 
-                         border-blue-500 focus:outline-none focus:shadow-outline
-                         rounded w-full py-2 px-3 text-gray-700 leading-tight  transition duration-300" id="fullname"
-                            name="fullname" type="text" placeholder="Fullname" autocomplete="off"
-                            value="{{ old('fullname') }}">
-                        <p class="text-red-800 text-xs italic">
-                            @error('fullname')
-                            {{ $message }}
-                            @enderror
-                            &nbsp;
-                        </p>
-                    </div>
                     <div class="mb-4">
                         <label class="block text-sm font-bold mb-2 uppercase text-gray-700" for="address">
                             Alamat

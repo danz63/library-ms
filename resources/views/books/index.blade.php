@@ -8,34 +8,34 @@
     </div>
     <div class="container max-w-full mx-auto m-8">
         <div class="w-11/12 mx-auto sm:items-center text-center md:text-left border p-5 rounded bg-gray-100">
-            <h1 class="w-full my-2 text-5xl font-bold leading-tight text-center text-gray-800">Rak Buku</h1>
+            <h1 class="w-full my-2 text-5xl font-bold leading-tight text-center text-gray-800">Buku</h1>
             <div class="w-full mb-4">
                 <div class="h-1 mx-auto gradient w-64 opacity-25 my-0 py-0 rounded-t"></div>
             </div>
             <div class="d-block w-full mx-auto">
                 <div class="d-block text-right my-5 mx-3">
-                    <a href="{{ url('/bookshelfs/create') }}"
+                    <a href="{{ url('/books/create') }}"
                         class="text-base text-gray-200 bg-blue-700 hover:bg-blue-500 hover:text-gray-100 px-2 py-1 rounded"><i
                             class="fas fa-plus fa-sm mr-1"></i> Tambah
-                        Rak</a>
+                        Buku</a>
                 </div>
-                <table class="border-collapse w-full" id="Table">
+                <table class="border-collapse w-full table-auto" id="Table">
                     <thead>
                         <tr>
                             <th
-                                class="p-3 font-bold uppercase bg-gray-200 text-gray-600 border border-gray-300 hidden lg:table-cell w-1/12">
+                                class="p-3 font-bold uppercase bg-gray-200 text-gray-600 border border-gray-300 hidden lg:table-cell">
                                 #</th>
                             <th
-                                class="p-3 font-bold uppercase bg-gray-200 text-gray-600 border border-gray-300 hidden lg:table-cell w-5/12">
+                                class="p-3 font-bold uppercase bg-gray-200 text-gray-600 border border-gray-300 hidden lg:table-cell">
                                 Judul</th>
                             <th
-                                class="p-3 font-bold uppercase bg-gray-200 text-gray-600 border border-gray-300 hidden lg:table-cell w-2/12">
+                                class="p-3 font-bold uppercase bg-gray-200 text-gray-600 border border-gray-300 hidden lg:table-cell">
                                 Penerbit</th>
                             <th
-                                class="p-3 font-bold uppercase bg-gray-200 text-gray-600 border border-gray-300 hidden lg:table-cell w-2/12">
+                                class="p-3 font-bold uppercase bg-gray-200 text-gray-600 border border-gray-300 hidden lg:table-cell">
                                 Tahun</th>
                             <th
-                                class="p-3 font-bold uppercase bg-gray-200 text-gray-600 border border-gray-300 hidden lg:table-cell w-2/12">
+                                class="p-3 font-bold uppercase bg-gray-200 text-gray-600 border border-gray-300 hidden lg:table-cell">
                                 Aksi</th>
                         </tr>
                     </thead>
@@ -55,18 +55,18 @@
                                     class="lg:hidden absolute top-0 left-0 bg-blue-200 px-2 py-1 text-xs font-bold uppercase">Judul</span>
                                 {{ $book->title }}
                             </td>
-                            <td
+                            {{-- <td
                                 class="w-full lg:w-auto p-3 text-gray-800 text-center border border-b block lg:table-cell relative lg:static">
                                 <span
                                     class="lg:hidden absolute top-0 left-0 bg-blue-200 px-2 py-1 text-xs font-bold uppercase">Penerbit</span>
                                 {{ $book->publisher }}
-                            </td>
-                            <td
+                            </td> --}}
+                            {{-- <td
                                 class="w-full lg:w-auto p-3 text-gray-800 text-center border border-b block lg:table-cell relative lg:static">
                                 <span
                                     class="lg:hidden absolute top-0 left-0 bg-blue-200 px-2 py-1 text-xs font-bold uppercase">Tahun</span>
                                 {{ $book->year }}
-                            </td>
+                            </td> --}}
                             <td
                                 class="w-full lg:w-auto p-3 text-gray-800 text-center border border-b text-center block lg:table-cell relative lg:static">
                                 <span
