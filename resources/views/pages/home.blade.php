@@ -19,7 +19,7 @@
                     <input class="shadow appearance-none border 
                         @if (session('status') === 'username') border-red-800
                         @else border-blue-500 focus:outline-none focus:shadow-outline
-                        @endif rounded w-full py-2 px-3 text-gray-700 leading-tight  transition duration-300"
+                        @endif rounded w-full py-2 px-3 text-gray-700 leading-tight transition duration-300"
                         id="username" name="username" type="text" placeholder="Username" autocomplete="off"
                         value="{{ old('username') }}" autofocus>
                     <p class="text-red-800 text-xs italic">

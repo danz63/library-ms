@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/1.9.2/tailwind.min.css"
         integrity="sha512-l7qZAq1JcXdHei6h2z8h8sMe3NbMrmowhOl+QkP3UhifPpCW2MC4M0i26Y8wYpbz1xD9t61MLT9L1N773dzlOA=="
         crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tailwindcss/ui@latest/dist/tailwind-ui.min.css">
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700" rel="stylesheet">
     <!-- Datatable Vanilla Javascript -->
     <link href="https://cdn.jsdelivr.net/npm/vanilla-datatables@latest/dist/vanilla-dataTables.min.css" rel="stylesheet"
@@ -48,6 +49,20 @@
                 id="nav-content">
                 <ul class="list-reset lg:flex justify-end flex-1 items-center">
                     <li>
+                        <form class="w-full max-w-sm" action="{{ url('pages/books/') }}" method="get">
+                            <div class="flex items-center py-2">
+                                <input
+                                    class="appearance-none border rounded w-4/5 py-2 px-3 text-gray-700 leading-tight focus:outline-none placeholder-gray-700"
+                                    type="text" name="query" placeholder="Cari Buku">
+                                <button
+                                    class="flex-shrink-0 bg-gray-100 hover:bg-gray-200 border-gray-100 hover:border-gray-200 text-sm border-4 text-black py-1 px-2 rounded"
+                                    type="submit">
+                                    <i class="fas fa-fw fa-search"></i>
+                                </button>
+                            </div>
+                        </form>
+                    </li>
+                    <li>
                         <div
                             class="dropdown inline-block text-black no-underline hover:text-gray-800 hover:text-underline py-2 px-4">
                             <button class="rounded inline-flex items-center focus:outline-none focus:border-none"
@@ -60,6 +75,7 @@
                                 </svg>
                             </button>
                             <ul class="dropdown-menu absolute py-1 hidden rounded bg-white shadow-outline">
+
                                 @if (session('status')==='login')
                                 @if (session('access_id')=='1')
                                 <li>
@@ -91,7 +107,8 @@
                                 @else
                                 <li>
                                     <a class="text-black no-underline hover:text-gray-800 hover:bg-gray-300 hover:text-underline block whitespace-no-wrap py-2 pr-4 pl-2 "
-                                        href="{{ url('/books') }}"><i class="fas fa-fw fa-atlas mr-1"></i>Daftar Buku
+                                        href="{{ url('/pages/books') }}"><i class="fas fa-fw fa-atlas mr-1"></i>Daftar
+                                        Buku
                                     </a>
                                 </li>
                                 <li>

@@ -145,10 +145,10 @@
                 <!--Footer-->
                 <div class="flex justify-end pt-2">
                     <button type="button" id="submit"
-                        class="px-2 p-1 bg-blue-500 hover:bg-blue-400 text-gray-100 font-bold mr-2 rounded"
+                        class="px-2 p-1 bg-blue-500 hover:bg-blue-400 text-gray-100 font-bold mr-2 rounded focus:outline-none focus:shadow-outline"
                         onclick="addNumber();">Submit</button>
                     <button type="button"
-                        class="modal-close px-2 bg-red-500 hover:bg-red-400 text-gray-100 font-bold rounded">Cancel</button>
+                        class="modal-close px-2 bg-red-500 hover:bg-red-400 text-gray-100 font-bold rounded focus:outline-none focus:shadow-outline">Cancel</button>
                 </div>
             </form>
 

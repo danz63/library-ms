@@ -10,17 +10,17 @@
         </div>
         <div class="d-block">
             <div
-                class="w-full md:w-3/5 mx-auto sm:items-center text-center md:text-left border p-5 rounded bg-gray-100">
-                <form action="{{ url('/do_register') }}" method="POST" class="md:w-full sm:w-full sm:mx-auto"
+                class="w-full md:w-3/5 mx-auto sm:items-center text-center md:text-left border border-blue-500 p-5 rounded bg-gray-100">
+                <form action="{{ url('/books/store') }}" method="POST" class="md:w-full sm:w-full sm:mx-auto"
                     enctype="multipart/form-data">
                     @csrf
                     <div class="mb-4">
-                        <label class="block text-sm font-bold mb-2 uppercase text-gray-700" for="username">
+                        <label class="block text-sm font-bold mb-2 uppercase text-gray-700" for="title">
                             Judul
                         </label>
                         <input
                             class="shadow appearance-none border 
-                            border-blue-500 focus:outline-none focus:shadow-outline rounded w-full py-2 px-3 text-gray-700 leading-tight  transition duration-300"
+                            focus:outline-none focus:shadow-outline rounded w-full py-2 px-3 text-gray-700 leading-tight transition duration-300"
                             id="title" name="title" type="text" placeholder="Judul" autocomplete="off"
                             value="{{ old('title') }}" autofocus>
                         <p class="text-red-800 text-xs italic">
@@ -30,23 +30,81 @@
                             &nbsp;
                         </p>
                     </div>
-
                     <div class="mb-4">
-                        <label class="block text-sm font-bold mb-2 uppercase text-gray-700" for="address">
-                            Alamat
+                        <label class="block text-sm font-bold mb-2 uppercase text-gray-700" for="writers">
+                            Penulis
                         </label>
-                        <textarea class="shadow appearance-none border 
-                        @if (session('status') === 'address') border-red-800
-                        @else border-blue-500 focus:outline-none focus:shadow-outline
-                        @endif rounded w-full py-2 px-3 text-gray-700 leading-tight  transition duration-300"
-                            id="address" name="address" type="text" placeholder="Address" autocomplete="off"
-                            rows="4">{{ old('address') }}</textarea>
+                        <select
+                            class="shadow appearance-none border 
+                            border-blue-500 focus:outline-none rounded w-full py-2 px-3 text-gray-700 leading-tight  transition duration-300"
+                            id="writers" name="writers">
+                            <option disabled selected>Pilih Penulis</option>
+                            @foreach ($options->writers as $writer)
+                            <option value="{{ $writer->id }}">{{ $writer->name }}</option>
+                            @endforeach
+                        </select>
                         <p class="text-red-800 text-xs italic">
-                            @error('address')
+                            @error('writers')
                             {{ $message }}
                             @enderror
                             &nbsp;
                         </p>
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-sm font-bold mb-2 uppercase text-gray-700" for="publishers">
+                            Penerbit
+                        </label>
+                        <select
+                            class="shadow appearance-none border 
+                            border-blue-500 focus:outline-none rounded w-full py-2 px-3 text-gray-700 leading-tight  transition duration-300"
+                            id="publishers" name="publishers">
+                            <option selected>Pilih Penerbit</option>
+                            @foreach ($options->publishers as $publisher)
+                            <option value="{{ $publisher->id }}">{{ $publisher->name }}</option>
+                            @endforeach
+                        </select>
+                        <p class="text-red-800 text-xs italic">
+                            @error('publishers')
+                            {{ $message }}
+                            @enderror
+                            &nbsp;
+                        </p>
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-sm font-bold mb-2 uppercase text-gray-700" for="bookshelfs">
+                            Rak
+                        </label>
+                        <select
+                            class="shadow appearance-none border 
+                            border-blue-500 focus:outline-none rounded w-full py-2 px-3 text-gray-700 leading-tight transition duration-300"
+                            id="bookshelfs" name="bookshelfs">
+                            <option disabled selected>Pilih Rak</option>
+                            @foreach ($options->bookshelfs as $bookshelf)
+                            <option value="{{ $bookshelf->id }}">{{ $bookshelf->name }}</option>
+                            @endforeach
+                        </select>
+                        <p class="text-red-800 text-xs italic">
+                            @error('bookshelfs')
+                            {{ $message }}
+                            @enderror
+                            &nbsp;
+                        </p>
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-sm font-bold mb-2 uppercase text-gray-700">
+                            Kategori
+                        </label>
+                        <div
+                            class="shadow appearance-none border 
+                        border-blue-500 focus:outline-none rounded w-full py-2 px-3 text-gray-700 leading-tight transition duration-300 grid grid-rows-2 grid-flow-col gap-4">
+                            @foreach ($options->categories as $category)
+                            <div class="font-bold inline">
+                                <input type="checkbox" value="{{ $category->id }}" name="categories[]"
+                                    class="form-checkbox h-4 w-4 text-indigo-600 transition duration-150 ease-in-out">
+                                <span class="py-2">{{ $category->name }}</span>
+                            </div>
+                            @endforeach
+                        </div>
                     </div>
                     <div class="mb-4">
                         <label class="block text-sm font-bold mb-2 uppercase text-gray-700" for="image">
@@ -66,14 +124,11 @@
                     </div>
                     <div class="flex items-center justify-between">
                         <button type="submit" name="submit" value="Submit"
-                            class="mx-auto lg:mx-0 bg-blue-500 hover:bg-blue-400 text-gray-100 font-bold rounded-full my-6 py-2 shadow-lg cursor-pointer w-full transition duration-300">Register</button>
+                            class="mx-auto lg:mx-0 bg-blue-500 hover:bg-blue-400 text-gray-100 font-bold rounded-full my-6 py-2 shadow-lg cursor-pointer w-full transition duration-300 focus:outline-none focus:shadow-outline">Submit</button>
                     </div>
-                    <div class="d-block my-4">
-                        <p class="text-gray-700 text-md text-center">Sudah Punya akun?
-                            <a href="{{ url('/') }}" class="text-blue-700 text-md hover:underline">
-                                Login
-                            </a>
-                        </p>
+                    <div class="flex items-center justify-between">
+                        <button type="button" onclick="window.location.href = '{{ url('books') }}';"
+                            class="mx-auto lg:mx-0 bg-red-500 hover:bg-red-400 text-gray-100 font-bold rounded-full py-2 shadow-lg cursor-pointer w-full transition duration-300 focus:outline-none focus:shadow-outline">Kembali</button>
                     </div>
                 </form>
             </div>

@@ -89,7 +89,7 @@
                                 @if ($usr->username !== 'root' && $usr->username !== 'member')
                                 <div class="inline">
                                     <button onclick="window.location='{{ url('users/edit/'.$usr->id) }}';"
-                                        class="bg-green-700 text-gray-200 hover:bg-green-500 px-2 py-1 text-sm rounded mx-1">
+                                        class="bg-green-700 text-gray-200 hover:bg-green-500 px-2 py-1 text-sm rounded mx-1 focus:outline-none focus:shadow-outline">
                                         <i class="fas fa-sm fa-edit mr-1"></i>Edit
                                     </button>
                                 </div>
@@ -99,7 +99,7 @@
                                     <input type="hidden" name="id" value="{{ $usr->id }}">
                                     <button onclick="ConfirmDelete(this,'Yakin ingin menghapus User ini?');"
                                         type="button"
-                                        class="bg-red-700 text-gray-200 hover:bg-red-500 px-2 py-1 text-sm rounded mx-1">
+                                        class="bg-red-700 text-gray-200 hover:bg-red-500 px-2 py-1 text-sm rounded mx-1 focus:outline-none focus:shadow-outline">
                                         <i class="fas fa-sm fa-eraser mr-1"></i>Hapus
                                     </button>
                                 </form>

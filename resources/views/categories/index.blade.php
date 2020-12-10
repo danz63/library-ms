@@ -54,11 +54,11 @@
                                 <span
                                     class="lg:hidden absolute top-0 left-0 bg-blue-200 px-2 py-1 text-xs font-bold uppercase">Aksi</span>
                                 <button value="{{ $category->id }}"
-                                    class="bg-teal-700 text-gray-200 hover:bg-teal-500 px-2 py-1 text-sm rounded mx-1 sm:mx-auto">
+                                    class="bg-teal-700 text-gray-200 hover:bg-teal-500 px-2 py-1 text-sm rounded mx-1 sm:mx-auto focus:outline-none focus:shadow-outline">
                                     <i class="fas fa-sm fa-info-circle mr-1"></i>Daftar Buku
                                 </button>
                                 <button onclick="window.location='{{ url('categories/edit/'.$category->id) }}'"
-                                    class="bg-green-700 text-gray-200 hover:bg-green-500 px-2 py-1 text-sm rounded mx-1 sm:mx-auto">
+                                    class="bg-green-700 text-gray-200 hover:bg-green-500 px-2 py-1 text-sm rounded mx-1 sm:mx-auto focus:outline-none focus:shadow-outline">
                                     <i class="fas fa-sm fa-edit mr-1"></i>Edit
                                 </button>
                                 <form action="{{ url('categories/destroy/'.$category->id) }}" class="inline"
@@ -67,7 +67,7 @@
                                     @method('delete')
                                     <button type="button"
                                         onclick="ConfirmDelete(this,'Yakin Ingin menghapus Kategori Ini?')"
-                                        class="bg-red-700 text-gray-200 hover:bg-red-500 px-2 py-1 text-sm rounded mx-1 sm:mx-auto">
+                                        class="bg-red-700 text-gray-200 hover:bg-red-500 px-2 py-1 text-sm rounded mx-1 sm:mx-auto focus:outline-none focus:shadow-outline">
                                         <i class="fas fa-sm fa-eraser mr-1"></i>Hapus
                                     </button>
                                 </form>

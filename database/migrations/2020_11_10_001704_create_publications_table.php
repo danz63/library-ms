@@ -19,6 +19,7 @@ class CreatePublicationsTable extends Migration
             $table->id();
             $table->integer('book_id');
             $table->integer('publisher_id');
+            $table->string('year');
             $table->timestamps();
         });
     }

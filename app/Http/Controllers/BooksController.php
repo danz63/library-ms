@@ -1,9 +1,14 @@
 <?php
+// Table Master
 
 namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
+use App\Http\Controllers\StoragesController;
+use App\Http\Controllers\TagsController;
+use App\Http\Controllers\PublicationsController;
+use App\Http\Controllers\CreationsController;
 
 class BooksController extends Controller
 {
@@ -14,7 +19,6 @@ class BooksController extends Controller
      */
     public function index()
     {
-        $options = $this->getAllOptions();
         $books = DB::table('books')->get();
         return view('books.index', ['books' => $books]);
     }
@@ -26,7 +30,9 @@ class BooksController extends Controller
      */
     public function create()
     {
-        return view('books/create');
+        $options = $this->getAllOptions();
+        $options = json_decode($options);
+        return view('books/create', ['options' => $options]);
     }
 
     /**
@@ -37,7 +43,26 @@ class BooksController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $file = $request->file('image');
+        $splt = explode('.', $file->getClientOriginalName());
+        $file_name = time() . "." . $splt[count($splt) - 1];
+        $upload_path = "img/books";
+        $file->move($upload_path, $file_name);
+        $data = [
+            'title' => $request->title,
+            'images' => $file_name,
+            'created_at' => date('Y-m-d H:i:s')
+        ];
+        $LastID = DB::table('books')->insertGetId($data);
+        StoragesController::_insert($LastID, $request->bookshelfs);
+        CreationsController::_insert($LastID, $request->writers);
+        PublicationsController::_insert($LastID, $request->publishers, $request->year);
+        TagsController::_insert($LastID, $request->categories);
+        return redirect('/books')->with('flash', [
+            'icon' => 'success',
+            'title' => 'Success',
+            'text' => 'Data Berhasil Ditambahkan!'
+        ]);
     }
 
     /**
@@ -88,9 +113,11 @@ class BooksController extends Controller
     public function getAllOptions()
     {
         $res = [
+            'bookshelfs' => DB::table('bookshelfs')->get(),
             'publishers' => DB::table('publishers')->get(),
             'writers' => DB::table('writers')->get(),
             'categories' => DB::table('categories')->get()
         ];
+        return json_encode($res);
     }
 }

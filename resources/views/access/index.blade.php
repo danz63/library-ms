@@ -49,7 +49,7 @@
                                     class="lg:hidden absolute top-0 left-0 bg-blue-200 px-2 py-1 text-xs font-bold uppercase">Aksi</span>
                                 <form action="{{ 'access/edit/'.$acss->id }}" class="inline">
                                     <button type="submit"
-                                        class="bg-green-700 text-gray-200 hover:bg-green-500 px-2 py-1 text-sm rounded mx-1">
+                                        class="bg-green-700 text-gray-200 hover:bg-green-500 px-2 py-1 text-sm rounded mx-1 focus:outline-none focus:shadow-outline">
                                         <i class="fas fa-edit mr-1"></i>Edit
                                     </button>
                                 </form>

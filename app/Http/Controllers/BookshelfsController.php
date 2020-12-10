@@ -1,5 +1,5 @@
 <?php
-
+// Table Master
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;

@@ -1,5 +1,6 @@
 <?php
-
+// Table extend dari table user
+// Diasumsikan 1 User bisa lebih dari 1 nomor telepon
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;

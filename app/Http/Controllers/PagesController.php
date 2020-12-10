@@ -101,4 +101,24 @@ class PagesController extends Controller
             'text' => 'Logout Berhasil! Silahkan Datang Kembali'
         ]);
     }
+
+    public function books(Request $request)
+    {
+        $query = false;
+        if ($request->get('query')) {
+            $books = DB::table('books')->where('title', 'like', "%" . $request->get('query') . "%")->get();
+            $query = $request->get('query');
+        } else {
+            $books = DB::table('books')->get();
+        }
+        $data = [
+            'books' => $books,
+            'query' => $query
+        ];
+        return view('pages.catalogs', $data);
+    }
+
+    public function transactions()
+    {
+    }
 }

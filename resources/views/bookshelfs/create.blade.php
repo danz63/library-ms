@@ -34,9 +34,9 @@
                     </div>
                     <div class="flex items-center justify-between">
                         <button type="submit" name="submit" value="Submit"
-                            class="mx-auto lg:mx-2 sm:mx-0 bg-blue-500 hover:bg-blue-400 text-gray-100 font-bold rounded-full py-2 mx-2 shadow-lg cursor-pointer lg:w-2/3 md:w-2/3 sm:w-full sm:block transition duration-300">Simpan</button>
-                        <button type="button" onclick="window.history.back();"
-                            class="mx-auto lg:mx-2 sm:mx-0 bg-red-500 hover:bg-red-400 text-gray-100 font-bold rounded-full py-2 mx-2 shadow-lg cursor-pointer lg:w-2/3 md:w-2/3 sm:w-full sm:block transition duration-300">Kembali</button>
+                            class="mx-auto lg:mx-2 sm:mx-0 bg-blue-500 hover:bg-blue-400 text-gray-100 font-bold rounded-full py-2 mx-2 shadow-lg cursor-pointer lg:w-2/3 md:w-2/3 sm:w-full sm:block transition duration-300 focus:outline-none focus:shadow-outline">Simpan</button>
+                        <button type="button" onclick="window.location.href='{{ url('bookshelfs') }}';"
+                            class="mx-auto lg:mx-2 sm:mx-0 bg-red-500 hover:bg-red-400 text-gray-100 font-bold rounded-full py-2 mx-2 shadow-lg cursor-pointer lg:w-2/3 md:w-2/3 sm:w-full sm:block transition duration-300 focus:outline-none focus:shadow-outline">Kembali</button>
                     </div>
                 </form>
             </div>

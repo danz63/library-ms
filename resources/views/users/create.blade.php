@@ -121,12 +121,12 @@
                     </div>
                     <div class="flex items-center justify-between">
                         <button type="submit" name="submit" value="Submit"
-                            class="mx-auto lg:mx-0 bg-blue-500 hover:bg-blue-400 text-gray-100 font-bold rounded-full my-2 py-2 shadow-lg cursor-pointer w-full transition duration-300">Simpan</button>
+                            class="mx-auto lg:mx-0 bg-blue-500 hover:bg-blue-400 text-gray-100 font-bold rounded-full my-2 py-2 shadow-lg cursor-pointer w-full transition duration-300 focus:outline-none focus:shadow-outline">Simpan</button>
 
                     </div>
                     <div class="flex items-center justify-between">
-                        <button type="button" onclick="window.history.back();"
-                            class="mx-auto lg:mx-0 bg-red-500 hover:bg-red-400 text-gray-100 font-bold rounded-full py-2 shadow-lg cursor-pointer w-full transition duration-300">Kembali</button>
+                        <button type="button" onclick="window.location.href = '{{ url('users') }}';"
+                            class="mx-auto lg:mx-0 bg-red-500 hover:bg-red-400 text-gray-100 font-bold rounded-full py-2 shadow-lg cursor-pointer w-full transition duration-300 focus:outline-none focus:shadow-outline">Kembali</button>
                     </div>
                 </form>
             </div>

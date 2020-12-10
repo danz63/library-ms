@@ -30,12 +30,6 @@
                                 Judul</th>
                             <th
                                 class="p-3 font-bold uppercase bg-gray-200 text-gray-600 border border-gray-300 hidden lg:table-cell">
-                                Penerbit</th>
-                            <th
-                                class="p-3 font-bold uppercase bg-gray-200 text-gray-600 border border-gray-300 hidden lg:table-cell">
-                                Tahun</th>
-                            <th
-                                class="p-3 font-bold uppercase bg-gray-200 text-gray-600 border border-gray-300 hidden lg:table-cell">
                                 Aksi</th>
                         </tr>
                     </thead>
@@ -55,24 +49,12 @@
                                     class="lg:hidden absolute top-0 left-0 bg-blue-200 px-2 py-1 text-xs font-bold uppercase">Judul</span>
                                 {{ $book->title }}
                             </td>
-                            {{-- <td
-                                class="w-full lg:w-auto p-3 text-gray-800 text-center border border-b block lg:table-cell relative lg:static">
-                                <span
-                                    class="lg:hidden absolute top-0 left-0 bg-blue-200 px-2 py-1 text-xs font-bold uppercase">Penerbit</span>
-                                {{ $book->publisher }}
-                            </td> --}}
-                            {{-- <td
-                                class="w-full lg:w-auto p-3 text-gray-800 text-center border border-b block lg:table-cell relative lg:static">
-                                <span
-                                    class="lg:hidden absolute top-0 left-0 bg-blue-200 px-2 py-1 text-xs font-bold uppercase">Tahun</span>
-                                {{ $book->year }}
-                            </td> --}}
                             <td
                                 class="w-full lg:w-auto p-3 text-gray-800 text-center border border-b text-center block lg:table-cell relative lg:static">
                                 <span
                                     class="lg:hidden absolute top-0 left-0 bg-blue-200 px-2 py-1 text-xs font-bold uppercase">Aksi</span>
                                 <button value="{{ $book->id }}"
-                                    class="bg-teal-700 text-gray-200 hover:bg-teal-500 px-2 py-1 text-sm rounded mx-1">
+                                    class="bg-teal-700 text-gray-200 hover:bg-teal-500 px-2 py-1 text-sm rounded mx-1 focus:outline-none focus:shadow-outline">
                                     <i class="fas fa-sm fa-info-circle mr-1"></i>Detail
                                 </button>
                             </td>

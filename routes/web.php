@@ -28,6 +28,7 @@ Route::get('/register', [PagesController::class, 'register']);
 Route::post('/do_register', [PagesController::class, 'do_register']);
 Route::post('/do_login', [PagesController::class, 'do_login']);
 Route::get('/do_logout', [PagesController::class, 'do_logout']);
+Route::get('/pages/books', [PagesController::class, 'books']);
 
 // Penanganan Menu User (CRUD)
 Route::get('/users', [UsersController::class, 'index']);
