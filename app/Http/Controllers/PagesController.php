@@ -104,16 +104,42 @@ class PagesController extends Controller
 
     public function books(Request $request)
     {
-        $query = false;
+        $message = false;
+
         if ($request->get('query')) {
             $books = DB::table('books')->where('title', 'like', "%" . $request->get('query') . "%")->get();
-            $query = $request->get('query');
+            $message = "Hasil Pencarian '" . $request->get('query') . "'";
+        } elseif ($request->get('category')) {
+            $books = DB::table('tags')
+                ->select("tags.*", "books.*", "categories.name as category_name")
+                ->join('books', 'tags.book_id', '=', 'books.id')
+                ->join('categories', 'tags.category_id', '=', 'categories.id')
+                ->where('tags.category_id', '=', $request->get('category'))
+                ->get();
+            $message = "Buku Dengan Kategori '" . $books[0]->category_name . "'";
+        } elseif ($request->get('writer')) {
+            $books = DB::table('creations')
+                ->select("creations.*", "books.*", "writers.name as writer_name")
+                ->join('books', 'creations.book_id', '=', 'books.id')
+                ->join('writers', 'creations.writer_id', '=', 'writers.id')
+                ->where('creations.writer_id', '=', $request->get('writer'))
+                ->get();
+            $message = "Buku Karangan '" . $books[0]->writer_name . "'";
+        } elseif ($request->get('publisher')) {
+            $books = DB::table('publications')
+                ->select("publications.*", "books.*", "publishers.name as publisher_name")
+                ->join('books', 'publications.book_id', '=', 'books.id')
+                ->join('publishers', 'publications.publisher_id', '=', 'publishers.id')
+                ->where('publications.publisher_id', '=', $request->get('publisher'))
+                ->get();
+            $message = "Buku Cetakan '" . $books[0]->publisher_name . "'";
         } else {
             $books = DB::table('books')->get();
         }
+
         $data = [
             'books' => $books,
-            'query' => $query
+            'message' => $message
         ];
         return view('pages.catalogs', $data);
     }

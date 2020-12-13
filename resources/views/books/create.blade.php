@@ -71,6 +71,22 @@
                         </p>
                     </div>
                     <div class="mb-4">
+                        <label class="block text-sm font-bold mb-2 uppercase text-gray-700" for="year">
+                            Tahun Terbit
+                        </label>
+                        <input
+                            class="shadow appearance-none border 
+                            focus:outline-none focus:shadow-outline rounded w-full py-2 px-3 text-gray-700 leading-tight transition duration-300"
+                            id="year" name="year" type="text" placeholder="Tahun" autocomplete="off"
+                            value="{{ old('year') }}" pattern="[0-9]{4}">
+                        <p class="text-red-800 text-xs italic">
+                            @error('year')
+                            {{ $message }}
+                            @enderror
+                            &nbsp;
+                        </p>
+                    </div>
+                    <div class="mb-4">
                         <label class="block text-sm font-bold mb-2 uppercase text-gray-700" for="bookshelfs">
                             Rak
                         </label>
@@ -124,11 +140,9 @@
                     </div>
                     <div class="flex items-center justify-between">
                         <button type="submit" name="submit" value="Submit"
-                            class="mx-auto lg:mx-0 bg-blue-500 hover:bg-blue-400 text-gray-100 font-bold rounded-full my-6 py-2 shadow-lg cursor-pointer w-full transition duration-300 focus:outline-none focus:shadow-outline">Submit</button>
-                    </div>
-                    <div class="flex items-center justify-between">
-                        <button type="button" onclick="window.location.href = '{{ url('books') }}';"
-                            class="mx-auto lg:mx-0 bg-red-500 hover:bg-red-400 text-gray-100 font-bold rounded-full py-2 shadow-lg cursor-pointer w-full transition duration-300 focus:outline-none focus:shadow-outline">Kembali</button>
+                            class="mx-auto lg:mx-2 sm:mx-0 bg-blue-500 hover:bg-blue-400 text-gray-100 font-bold rounded-full py-2 mx-2 shadow-lg cursor-pointer lg:w-2/3 md:w-2/3 sm:w-full sm:block transition duration-300 focus:outline-none focus:shadow-outline">Simpan</button>
+                        <button type="button" onclick="window.location.href='{{ url('books') }}';"
+                            class="mx-auto lg:mx-2 sm:mx-0 bg-red-500 hover:bg-red-400 text-gray-100 font-bold rounded-full py-2 mx-2 shadow-lg cursor-pointer lg:w-2/3 md:w-2/3 sm:w-full sm:block transition duration-300 focus:outline-none focus:shadow-outline">Kembali</button>
                     </div>
                 </form>
             </div>

@@ -19,49 +19,51 @@
                             class="fas fa-plus fa-sm mr-1"></i> Tambah
                         Buku</a>
                 </div>
-                <table class="border-collapse w-full table-auto" id="Table">
-                    <thead>
-                        <tr>
-                            <th
-                                class="p-3 font-bold uppercase bg-gray-200 text-gray-600 border border-gray-300 hidden lg:table-cell">
-                                #</th>
-                            <th
-                                class="p-3 font-bold uppercase bg-gray-200 text-gray-600 border border-gray-300 hidden lg:table-cell">
-                                Judul</th>
-                            <th
-                                class="p-3 font-bold uppercase bg-gray-200 text-gray-600 border border-gray-300 hidden lg:table-cell">
-                                Aksi</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($books as $book)
-                        <tr
-                            class="bg-white lg:hover:bg-gray-100 flex lg:table-row flex-row lg:flex-row flex-wrap lg:flex-no-wrap mb-10 lg:mb-0">
-                            <td
-                                class="w-full lg:w-auto p-3 text-gray-800 text-center border border-b block lg:table-cell relative lg:static">
-                                <span
-                                    class="lg:hidden absolute top-0 left-0 bg-blue-200 px-2 py-1 text-xs font-bold uppercase">#</span>
-                                {{ $loop->iteration }}
-                            </td>
-                            <td
-                                class="w-full lg:w-auto p-3 text-gray-800 text-center border border-b block lg:table-cell relative lg:static">
-                                <span
-                                    class="lg:hidden absolute top-0 left-0 bg-blue-200 px-2 py-1 text-xs font-bold uppercase">Judul</span>
-                                {{ $book->title }}
-                            </td>
-                            <td
-                                class="w-full lg:w-auto p-3 text-gray-800 text-center border border-b text-center block lg:table-cell relative lg:static">
-                                <span
-                                    class="lg:hidden absolute top-0 left-0 bg-blue-200 px-2 py-1 text-xs font-bold uppercase">Aksi</span>
-                                <button value="{{ $book->id }}"
-                                    class="bg-teal-700 text-gray-200 hover:bg-teal-500 px-2 py-1 text-sm rounded mx-1 focus:outline-none focus:shadow-outline">
-                                    <i class="fas fa-sm fa-info-circle mr-1"></i>Detail
-                                </button>
-                            </td>
-                        </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+            </div>
+            <div class="flex flex-wrap">
+                @foreach ($books as $book)
+                <div class="my-1 px-1 w-full md:w-1/3 lg:my-4 lg:px-4 lg:w-1/4">
+                    <!-- Article -->
+                    <article class="overflow-hidden rounded-lg shadow-lg divide-y divide-gray-200">
+                        <div class="h-64 bg-gray-200">
+                            <span class="absolute mr-2 bg-white text-black p-1 rounded leading-none text-sm">
+                                {{ getStoragesOfBook($book->id) }}
+                            </span>
+                            <img alt="Placeholder" class="h-full mx-auto" src="{{ asset('img/books/'.$book->images) }}">
+                        </div>
+                        <header class="flex items-center justify-between leading-tight p-2 md:px-4 h-20">
+                            <h1 class="text-lg">
+                                <p class="hover:text-teal-700 text-teal-500 cursor-default">
+                                    {{ $book->title }}
+                                </p>
+                            </h1>
+                        </header>
+                        <div class="pl-1 py-2 h-16 text-black">
+                            <span class="text-black text-xs">Tags : </span>
+                            @foreach (getCategoriesOfBooks($book->id) as $tag)
+                            <a href="{{ url('pages/books?category='.$tag->id) }}"
+                                class="hover:text-teal-500 text-teal-600 hover:underline text-xs">
+                                {{ $tag->name }}
+                            </a>&nbsp;
+                            @endforeach
+                        </div>
+                        <footer class="flex flex-col leading-none px-2 md:px-4 py-1">
+                            <?php $writer = getAuthorOfBook($book->id); ?>
+                            <?php $publisher = getPublisherOfBooks($book->id); ?>
+                            <a class="no-underline hover:underline hover:text-teal-500 text-teal-600 ml-2 text-sm mb-2"
+                                href="{{ url('pages/books?writer='.$writer->writer_id) }}">
+                                {{ $writer->name }}
+                            </a>
+                            <a class="no-underline hover:underline hover:text-teal-500 text-teal-600 ml-2 text-sm text-right"
+                                href="{{ url('pages/books?publisher='.$publisher->publisher_id) }}">
+                                {{ $publisher->name }}
+                            </a>
+                        </footer>
+                    </article>
+                    <!-- END Article -->
+                </div>
+                <!-- END Column -->
+                @endforeach
             </div>
         </div>
     </div>
