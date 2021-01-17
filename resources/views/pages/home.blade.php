@@ -4,36 +4,36 @@
 <div class="pt-24">
     <div class="container px-3 mx-auto flex flex-wrap flex-col md:flex-row items-center" id="log_form">
         <!--Left Col-->
-        @if (session('status')!=='login')
-        <div
-            class="flex flex-col w-full md:w-2/5 justify-center items-start sm:items-center text-center md:text-left border p-5 rounded bg-gray-100">
-            <form action="{{ url('/do_login') }}" method="POST" class="md:w-full sm:w-full sm:mx-auto">
+        @if (!_isLoggedIn())
+        <div class="flex flex-col w-full md:w-2/5 justify-center items-start sm:items-center text-center md:text-left">
+            <form action="{{ url('/do_login') }}" method="POST"
+                class="bg-transparent px-8 pt-6 pb-8 mb-4 w-full border border-gray-800 border-opacity-50 rounded">
                 @csrf
                 <div class="mb-4">
-                    <h1 class="text-center text-3xl font-bold text-gray-700">Form Login</h1>
+                    <h1 class="text-center text-3xl font-bold text-gray-200">Form Login</h1>
                 </div>
                 <div class="mb-4">
-                    <label class="block text-sm font-bold mb-2 uppercase text-gray-700" for="username">
+                    <label class="block text-sm font-bold mb-2 uppercase text-gray-200" for="username">
                         Username
                     </label>
                     <input class="shadow appearance-none border 
                         @if (session('status') === 'username') border-red-800
                         @else border-blue-500 focus:outline-none focus:shadow-outline
-                        @endif rounded w-full py-2 px-3 text-gray-700 leading-tight transition duration-300"
-                        id="username" name="username" type="text" placeholder="Username" autocomplete="off"
+                        @endif rounded w-full py-2 px-3 text-black leading-tight transition duration-300" id="username"
+                        name="username" type="text" placeholder="Username" autocomplete="off"
                         value="{{ old('username') }}" autofocus>
                     <p class="text-red-800 text-xs italic">
                         @if (session('status') === 'username') {{ session('message') }} @else &nbsp; @endif
                     </p>
                 </div>
                 <div class="mb-4">
-                    <label class="block text-sm font-bold mb-2 uppercase text-gray-700" for="password">
+                    <label class="block text-sm font-bold mb-2 uppercase text-gray-200" for="password">
                         Password
                     </label>
                     <input class="shadow appearance-none border rounded
                         @if (session('status') === 'password') border-red-800
                         @else border-blue-500 focus:outline-none focus:shadow-outline
-                        @endif  border-red-800 w-full py-2 px-3 text-gray-700 leading-tight transition duration-300"
+                        @endif  border-red-800 w-full py-2 px-3 text-black leading-tight transition duration-300"
                         id="password" name="password" type="password" placeholder="Password">
                     <p class="text-red-800 text-xs italic">
                         @if (session('status') === 'password') {{ session('message') }} @else &nbsp; @endif
@@ -44,8 +44,8 @@
                         class="mx-auto lg:mx-0 bg-blue-500 hover:bg-blue-400 text-gray-100 font-bold rounded-full my-6 py-2 shadow-lg cursor-pointer w-full transition duration-300">Login</button>
                 </div>
                 <div class="d-block my-4">
-                    <p class="text-gray-700 text-md text-center">Belum Punya akun?
-                        <a href="{{ url('/register') }}" class="text-blue-700 text-md hover:underline">
+                    <p class="text-gray-200 text-md text-center">Belum Punya akun?
+                        <a href="{{ url('/register') }}" class="text-blue-200 text-md hover:underline">
                             Daftar
                         </a>
                     </p>
@@ -55,19 +55,16 @@
         @else
         <div class="flex flex-col w-full md:w-2/5 justify-center items-start sm:items-center text-center md:text-left">
             <h1 class="my-4 text-3xl font-bold leading-tight">Sistem Manajemen Perpustakaan</h1>
-            <form class="bg-transparent px-8 pt-6 pb-8 mb-4 w-full border border-gray-800 border-opacity-50 rounded">
-                <div class="mb-4">
-                    <label class="block text-gray-100 text-sm font-bold mb-2" for="nama_buku">
-                        Cari Buku
-                    </label>
+            <form class="bg-transparent px-8 pt-6 pb-8 mb-4 w-full border border-gray-800 border-opacity-50 rounded"
+                action="{{ url('pages/books') }}" method="get">
+                <div class="flex items-center border-b border-gray-100 py-2">
                     <input
-                        class="shadow appearance-none border rounded w-4/5 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline placeholder-gray-700"
-                        id="nama_buku" type="text" placeholder="Nama Buku">
+                        class="appearance-none bg-transparent border-none w-full text-white mr-3 py-1 px-2 leading-tight focus:outline-none"
+                        name="query" type="text" placeholder="Cari Buku" autocomplete="off">
                     <button
-                        class="bg-white hover:bg-gray-200 text-blue-700 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline sm:block lg:inline-block lg:inline-block"
-                        type="submit">
+                        class="flex-shrink-0 bg-gray-100 hover:bg-gray-300 border-gray-100 hover:border-gray-300 text-sm border-4 text-black py-1 px-2 rounded"
+                        type="button">
                         <i class="fas fa-fw fa-search"></i>
-                        Cari
                     </button>
                 </div>
             </form>
@@ -177,7 +174,7 @@
     </div>
 </section>
 <button type="button" id="btnTop"
-    class="rounded-full h-12 w-12 gradient transition duration-500 text-gray-100 border border-gray-100 border-solid shadow-lg fixed right-0 bottom-0 mr-5 mb-5 z-50 invisible"
+    class="rounded-full h-12 w-12 gradient transition duration-500 text-gray-100 focus:outline-none shadow-lg fixed right-0 bottom-0 mr-5 mb-5 z-50 invisible"
     onclick="scrollIt();">
     <i class="fas fa-chevron-right fa-rotate-270"></i>
 </button>

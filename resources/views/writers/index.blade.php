@@ -53,10 +53,10 @@
                                 class="w-full lg:w-auto p-3 text-gray-800 text-right ms:text-center lg:text-center border border-b block lg:table-cell relative lg:static">
                                 <span
                                     class="lg:hidden absolute top-0 left-0 bg-blue-200 px-2 py-1 text-xs font-bold uppercase">Aksi</span>
-                                <button value="{{ $writer->id }}"
+                                <a type="button" href="{{ url('pages/books?writer='.$writer->id) }}"
                                     class="bg-teal-700 text-gray-200 hover:bg-teal-500 px-2 py-1 text-sm rounded mx-1 sm:mx-auto">
                                     <i class="fas fa-sm fa-info-circle mr-1"></i>Daftar Buku
-                                </button>
+                                </a>
                                 <button onclick="window.location='{{ url('writers/edit/'.$writer->id) }}'"
                                     class="bg-green-700 text-gray-200 hover:bg-green-500 px-2 py-1 text-sm rounded mx-1 sm:mx-auto focus:outline-none focus:shadow-outline">
                                     <i class="fas fa-sm fa-edit mr-1"></i>Edit

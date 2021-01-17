@@ -112,9 +112,9 @@
                         </label>
                         <div
                             class="shadow appearance-none border 
-                        border-blue-500 focus:outline-none rounded w-full py-2 px-3 text-gray-700 leading-tight transition duration-300 grid grid-rows-2 grid-flow-col gap-4">
+                        border-blue-500 focus:outline-none rounded w-full py-2 px-3 text-gray-700 leading-tight transition duration-300 grid grid-flow-row grid-cols-2 gap-4">
                             @foreach ($options->categories as $category)
-                            <div class="font-bold inline">
+                            <div class="font-bold inline text-sm">
                                 <input type="checkbox" value="{{ $category->id }}" name="categories[]"
                                     class="form-checkbox h-4 w-4 text-indigo-600 transition duration-150 ease-in-out">
                                 <span class="py-2">{{ $category->name }}</span>

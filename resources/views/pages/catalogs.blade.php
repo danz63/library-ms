@@ -28,6 +28,19 @@
                 <!-- Article -->
                 <article class="overflow-hidden rounded-lg shadow-lg divide-y divide-gray-200">
                     <div class="h-64 bg-gray-200">
+                        @if(_isMember())
+                        <form id="FormAddWishList" method="post">
+                            @csrf
+                            <button
+                                class="absolute mr-2 bg-white text-black p-1 rounded leading-none text-sm tooltip focus:outline-none"
+                                onclick="addWishList({{$book->id}});" type="button">
+                                <i class="fa fa-plus"></i>
+                                <span class='tooltip-text bg-blue-200 p-3 -mt-6 -ml-6 rounded w-48'>
+                                    Tambahkan Ke Wishlist
+                                </span>
+                            </button>
+                        </form>
+                        @endif
                         <img alt="Placeholder" class="h-full mx-auto" src="{{ asset('img/books/'.$book->images) }}">
                     </div>
                     <header class="flex items-center justify-between leading-tight p-2 md:px-4">
@@ -37,13 +50,13 @@
                             </p>
                         </h1>
                     </header>
-                    <div class="flex py-2 pl-2">
+                    <div class="pl-1 py-2 h-16 text-black">
+                        <span class="text-black text-xs">Tags : </span>
                         @foreach (getCategoriesOfBooks($book->id) as $tag)
-                        <a href="{{ url('pages/books?category='.$tag->id) }}" class="rounded-full mr-2 bg-blue-600
-                        hover:bg-blue-500 text-white p-1 rounded leading-none flex
-                        items-center text-xs">
+                        <a href="{{ url('pages/books?category='.$tag->id) }}"
+                            class="hover:text-teal-500 text-teal-600 hover:underline text-xs">
                             {{ $tag->name }}
-                        </a>
+                        </a>&nbsp;
                         @endforeach
                     </div>
                     <footer class="flex flex-col leading-none p-2 md:p-4">
@@ -59,9 +72,7 @@
                         </a>
                     </footer>
                 </article>
-                <!-- END Article -->
             </div>
-            <!-- END Column -->
             @endforeach
         </div>
     </div>
@@ -69,4 +80,26 @@
 @endsection
 @section('script')
 @include('js/scroll')
+<script>
+    function addWishList(bookId){
+        let data = {
+            _token : document.getElementById("FormAddWishList").querySelector("[name=_token]").value,
+            params : "book_id=" + bookId+"&user_id="+"{{ session('user_id') }}",
+            url : '{{ route('post_wishlist') }}'
+        };
+        ajax_post(data);
+    }
+    function ajax_post(data){
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                location.reload();
+            }
+        };
+        xhttp.open("POST", data.url, true);
+        xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        xhttp.setRequestHeader("X-CSRF-TOKEN", data._token);
+        xhttp.send(data.params);
+    }
+</script>
 @endsection

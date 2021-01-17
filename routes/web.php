@@ -7,6 +7,7 @@ use App\Http\Controllers\CategoriesController;
 use App\Http\Controllers\PagesController;
 use App\Http\Controllers\PhonesController;
 use App\Http\Controllers\PublishersController;
+use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\WritersController;
 use Illuminate\Support\Facades\Route;
@@ -29,6 +30,9 @@ Route::post('/do_register', [PagesController::class, 'do_register']);
 Route::post('/do_login', [PagesController::class, 'do_login']);
 Route::get('/do_logout', [PagesController::class, 'do_logout']);
 Route::get('/pages/books', [PagesController::class, 'books']);
+// Halaman Statis (403 / 404 / faq)
+Route::get('/forbiden', [PagesController::class, '_forbiden']);
+Route::get('/faq', [PagesController::class, '_faq']);
 
 // Penanganan Menu User (CRUD)
 Route::get('/users', [UsersController::class, 'index']);
@@ -85,3 +89,11 @@ Route::delete('/writers/destroy/{id}', [WritersController::class, 'destroy']);
 Route::get('/books', [BooksController::class, 'index']);
 Route::get('/books/create', [BooksController::class, 'create']);
 Route::post('/books/store', [BooksController::class, 'store']);
+
+
+// Penanganan Peminjaman
+Route::post('/transaction/add_wishlist', [TransactionController::class, 'addWishList'])->name('post_wishlist');
+Route::get('/transaction/remove_wishlist/{id}', [TransactionController::class, 'removeWishList']);
+Route::get('/transaction/apply_loan', [TransactionController::class, 'ApplyLoan']);
+Route::get('/transaction/list/{list}', [TransactionController::class, 'index']);
+Route::get('/transaction/response/{list}/{id}', [TransactionController::class, 'response']);

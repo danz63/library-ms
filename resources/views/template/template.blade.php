@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/1.9.2/tailwind.min.css"
         integrity="sha512-l7qZAq1JcXdHei6h2z8h8sMe3NbMrmowhOl+QkP3UhifPpCW2MC4M0i26Y8wYpbz1xD9t61MLT9L1N773dzlOA=="
         crossorigin="anonymous" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tailwindcss/ui@latest/dist/tailwind-ui.min.css">
+    {{-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tailwindcss/ui@latest/dist/tailwind-ui.min.css"> --}}
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700" rel="stylesheet">
     <!-- Datatable Vanilla Javascript -->
     <link href="https://cdn.jsdelivr.net/npm/vanilla-datatables@latest/dist/vanilla-dataTables.min.css" rel="stylesheet"
@@ -48,23 +48,117 @@
             <div class="w-full flex-grow lg:flex lg:items-center lg:w-auto hidden lg:block mt-2 lg:mt-0 bg-white lg:bg-transparent text-black p-4 lg:p-0 z-20 shadow-2xl rounded-lg lg:shadow-none"
                 id="nav-content">
                 <ul class="list-reset lg:flex justify-end flex-1 items-center">
-                    <li>
-                        <form class="w-full max-w-sm" action="{{ url('pages/books/') }}" method="get">
-                            <div class="flex items-center py-2">
-                                <input
-                                    class="appearance-none border rounded w-4/5 py-2 px-3 text-gray-700 leading-tight focus:outline-none placeholder-gray-700"
-                                    type="text" name="query" placeholder="Cari Buku" autocomplete="Off">
-                                <button
-                                    class="flex-shrink-0 bg-gray-100 hover:bg-gray-200 border-gray-100 hover:border-gray-200 text-sm border-4 text-black py-1 px-2 rounded"
-                                    type="submit">
-                                    <i class="fas fa-fw fa-search"></i>
-                                </button>
-                            </div>
-                        </form>
-                    </li>
+                    @if (_isMember())
+                    <?php $wishList = getWishList(session('user_id')); ?>
+
                     <li>
                         <div
-                            class="dropdown inline-block text-black no-underline hover:text-gray-800 hover:text-underline py-2 px-4">
+                            class="dropdown inline-block text-black no-underline hover:text-gray-800 hover:text-underline">
+                            <button
+                                class="mr-3 px-1 relative border-2 border-transparent text-black rounded-full hover:text-gray-800 focus:outline-none"
+                                onclick="showdd(this.parentNode);" title="Wishlist">
+                                <i class="fa fa-fw fa-list-alt"></i>
+                                @if (count($wishList) > 0)
+                                <span class="absolute inset-0 object-right-top -mr-6 -mt-4">
+                                    <div
+                                        class="inline-flex items-center px-2 py-1 rounded-full text-xs font-semibold leading-4 bg-red-500 text-white">
+                                        {{ count($wishList) }}
+                                    </div>
+                                </span>
+                                @endif
+                            </button>
+                            <ul class="dropdown-menu absolute hidden rounded bg-white shadow-outline">
+                                <li>
+                                    @foreach ($wishList as $wl)
+                                    <div
+                                        class="p-2 flex bg-white hover:bg-gray-100 cursor-pointer border-b border-gray-100">
+                                        <div class="p-2 h-24 w-32">
+                                            <img src="{{ asset('img/books/'.$wl->images) }}" alt="img book"
+                                                class="h-full mx-auto">
+                                        </div>
+                                        <div class="flex-auto text-sm w-32">
+                                            <div class="font-bold">Buku {{ $loop->iteration }}</div>
+                                            <div class="break-words">{{ $wl->title }}</div>
+                                        </div>
+                                        <div class="flex flex-col w-18 font-medium items-end">
+                                            <div
+                                                class="w-4 h-4 mb-6 hover:bg-red-200 rounded-full cursor-pointer text-red-700">
+                                                <button
+                                                    onclick="removeWishList('{{ url('transaction/remove_wishlist/'.$wl->db_id) }}');"
+                                                    class="focus:outline-none">
+                                                    <i class="far fa-trash-alt"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @endforeach
+                                    @if (count($wishList) > 0)
+                                    <div class="p-4 justify-center flex">
+                                        <a class="text-base undefined hover:scale-110 focus:outline-none flex justify-center px-2 py-1 rounded font-bold cursor-pointer hover:bg-teal-700 hover:text-teal-100 
+                                        bg-teal-100 text-teal-700 border duration-200 ease-in-out 
+                                        border-teal-600 transition" href="{{ url('transaction/apply_loan') }}">Ajukan
+                                            Peminjaman</a>
+                                    </div>
+                                    @else
+                                    <div class="p-4 justify-center flex">
+                                        <p class="text-sm hover:scale-110 focus:outline-none flex justify-center px-2 py-1 rounded cursor-pointer duration-200 ease-in-out 
+                                        transition">Wishlist Kosong</p>
+                                    </div>
+                                    @endif
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                    @endif
+                    @if(_isLoggedIn())
+                    <?php $notifications = getNotifications(); ?>
+                    <li>
+                        <div
+                            class="dropdown inline-block text-black no-underline hover:text-gray-800 hover:text-underline">
+                            <button
+                                class="mr-3 px-1 relative border-2 border-transparent text-black rounded-full hover:text-gray-800 focus:outline-none"
+                                onclick="showdd(this.parentNode);" title="Notifikasi">
+                                <i class="fa fa-fw fa-bell"></i>
+                                @if (count($notifications['detail']) > 0)
+                                <span class="absolute inset-0 object-right-top -mr-6 -mt-4">
+                                    <div
+                                        class="inline-flex items-center px-2 py-1 rounded-full text-xs font-semibold leading-4 bg-red-500 text-white">
+                                        {{ count($notifications['detail']) }}
+                                    </div>
+                                </span>
+                                @endif
+                            </button>
+                            <ul class="dropdown-menu absolute hidden rounded bg-white shadow-outline">
+                                <li>
+                                    <div class="p-2 flex bg-white border-b border-gray-100">
+                                        <div class="flex-auto text-sm w-64">
+                                            <div class="font-bold">{{ $notifications['message'] }}</div>
+                                            @if (_isMember())
+                                            <div class="break-words">
+                                                {{ count($notifications['detail']) }}
+                                                {{ $notifications['detail_message'] }}
+                                            </div>
+                                            @elseif (_isAdmin())
+                                            @foreach ($notifications['detail'] as $item)
+                                            <div class="break-words">
+                                                {{ $item->jum }}
+                                                {{ $item->status_borrow }}
+                                            </div>
+                                            @endforeach
+                                            <a href="{{ url('transaction/list/applied') }}"
+                                                class="underline hover:no-underline text-blue-800">Lihat
+                                                Semua</a>
+                                            @endif
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                    @endif
+                    <li>
+                        <div
+                            class="dropdown inline-block text-black no-underline hover:text-gray-800 hover:text-underline px-4">
                             <button class="rounded inline-flex items-center focus:outline-none focus:border-none"
                                 onclick="showdd(this.parentNode);">
                                 <span class="mr-1"><i class="fas fa-fw fa-book mr-1"></i>Buku</span>
@@ -74,17 +168,17 @@
                                         d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
                                 </svg>
                             </button>
-                            <ul class="dropdown-menu absolute py-1 hidden rounded bg-white shadow-outline">
+                            <ul class="dropdown-menu absolute hidden rounded bg-white shadow-outline">
+                                @if (_isAdmin())
                                 <li>
-                                    <a class="text-black no-underline hover:text-gray-800 hover:bg-gray-300 hover:text-underline block whitespace-no-wrap py-2 pr-4 pl-2 "
-                                        href="{{ url('/pages/books') }}"><i class="fas fa-fw fa-atlas mr-1"></i>Daftar
-                                        Buku
+                                    <a class="text-black no-underline hover:text-gray-800 hover:bg-gray-300 hover:text-underline block whitespace-no-wrap py-2 pr-4 pl-2"
+                                        href="{{ url('/transaction/list/wishlist') }}">
+                                        <i class="fas fa-fw fa-list mr-1"></i>
+                                        Data Peminjaman
                                     </a>
                                 </li>
-                                @if (session('status')==='login')
-                                @if (session('access_id')=='1')
                                 <li>
-                                    <a class="text-black no-underline hover:text-gray-800 hover:bg-gray-300 hover:text-underline block whitespace-no-wrap py-2 pr-4 pl-2 "
+                                    <a class="text-black no-underline hover:text-gray-800 hover:bg-gray-300 hover:text-underline block whitespace-no-wrap py-2 pr-4 pl-2"
                                         href="{{ url('/books') }}"><i class="fas fa-fw fa-atlas mr-1"></i>Buku
                                     </a>
                                 </li>
@@ -109,22 +203,29 @@
                                         href="{{ url('/writers') }}"><i class="fas fa-fw fa-user-edit mr-1"></i>Penulis
                                     </a>
                                 </li>
-                                @else
+                                @endif
+                                @if (_isMember() || !_isLoggedIn())
+                                <li>
+                                    <a class="text-black no-underline hover:text-gray-800 hover:bg-gray-300 hover:text-underline block whitespace-no-wrap py-2 pr-4 pl-2"
+                                        href="{{ url('/pages/books') }}"><i class="fas fa-fw fa-atlas mr-1"></i>Daftar
+                                        Buku
+                                    </a>
+                                </li>
+                                @endif
+                                @if (_isMember())
                                 <li>
                                     <a class="text-black no-underline hover:text-gray-800 hover:bg-gray-300 hover:text-underline block whitespace-no-wrap py-2 pr-4 pl-2 "
                                         href="{{ url('/books') }}"><i class="fas fa-fw fa-book-reader mr-1"></i>Pinjaman
                                     </a>
                                 </li>
                                 @endif
-                                @endif
                             </ul>
                         </div>
                     </li>
-                    @if (session('status')==='login')
-                    @if (session('access_id')=='1')
+                    @if (_isAdmin())
                     <li>
                         <div
-                            class="dropdown inline-block text-black no-underline hover:text-gray-800 hover:text-underline py-2 px-4">
+                            class="dropdown inline-block text-black no-underline hover:text-gray-800 hover:text-underline px-4">
                             <button class="rounded inline-flex items-center focus:outline-none focus:border-none"
                                 onclick="showdd(this.parentNode);">
                                 <span class="mr-1"><i class="fas fa-fw fa-users mr-1"></i>Pengguna</span>
@@ -134,7 +235,7 @@
                                         d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
                                 </svg>
                             </button>
-                            <ul class="dropdown-menu absolute py-1 hidden rounded bg-white shadow-outline">
+                            <ul class="dropdown-menu absolute hidden rounded bg-white shadow-outline">
                                 <li>
                                     <a class="text-black no-underline hover:text-gray-800 hover:bg-gray-300 hover:text-underline block whitespace-no-wrap py-2 pr-4 pl-2 "
                                         href="{{ url('/access') }}"><i class="fas fa-fw fa-key mr-1"></i>Akses
@@ -149,9 +250,10 @@
                         </div>
                     </li>
                     @endif
+                    @if (_isMember() || _isAdmin())
                     <li>
                         <div
-                            class="dropdown inline-block text-black no-underline hover:text-gray-800 hover:text-underline py-2 px-4">
+                            class="dropdown inline-block text-black no-underline hover:text-gray-800 hover:text-underline px-4">
                             <button class="rounded inline-flex items-center focus:outline-none focus:border-none"
                                 onclick="showdd(this.parentNode);">
                                 <span class="mr-1"><i class="fas fa-fw fa-user mr-1"></i>Akun</span>
@@ -161,7 +263,7 @@
                                         d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
                                 </svg>
                             </button>
-                            <ul class="dropdown-menu absolute py-1 hidden rounded bg-white shadow-outline">
+                            <ul class="dropdown-menu absolute hidden rounded bg-white shadow-outline">
                                 <li>
                                     <a class="text-black no-underline hover:text-gray-800 hover:bg-gray-300 hover:text-underline block whitespace-no-wrap py-2 pr-4 pl-2 w-32"
                                         href="{{ url('/user/detail') }}"><i
@@ -178,6 +280,36 @@
                         </div>
                     </li>
                     @endif
+                    @if(!_isLoggedIn())
+                    <li>
+                        <a href="{{ url('/') }}"
+                            class="inline-block text-black no-underline hover:text-gray-800 hover:text-underline pl-2 pr-1 rounded inline-flex items-center focus:outline-none focus:border-none"
+                            title="Sign In">
+                            <i class="fa fa-fw fa-sign-in-alt"></i>
+                        </a>
+                    </li>
+                    @endif
+                    <li>
+                        <a href="{{ url('faq') }}"
+                            class="inline-block text-black no-underline hover:text-gray-800 hover:text-underline pl-1 pr-4 rounded inline-flex items-center focus:outline-none focus:border-none"
+                            title="FAQ">
+                            <i class="fas fa-fw fa-question-circle"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <form class="w-full max-w-sm" action="{{ url('pages/books/') }}" method="get">
+                            <div class="flex items-center py-2">
+                                <input
+                                    class="appearance-none border rounded w-4/5 py-2 px-3 text-gray-700 leading-tight focus:outline-none placeholder-gray-700"
+                                    type="text" name="query" placeholder="Cari Buku" autocomplete="Off">
+                                <button
+                                    class="flex-shrink-0 bg-gray-100 hover:bg-gray-200 border-gray-100 hover:border-gray-200 text-sm border-4 text-black py-1 px-2 rounded"
+                                    type="submit">
+                                    <i class="fas fa-fw fa-search"></i>
+                                </button>
+                            </div>
+                        </form>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -303,7 +435,7 @@
         document.onclick = check;
 
         function check(e) {
-            var target = (e && e.target) || (event && event.srcElement);
+            var target = (e && e.target) || (event && event.srcElement);  
             //Nav Menu
             if (!checkParent(target, navMenuDiv)) {
                 // click NOT on the menu
@@ -333,6 +465,7 @@
         }
 
         function showdd(el) {
+            hidealldd(el);
             let ddm = el.getElementsByClassName("dropdown-menu")[0];
             if (ddm.classList.contains("hidden")) {
                 ddm.classList.remove("hidden");
@@ -340,25 +473,58 @@
                 ddm.classList.add("hidden");
             }
         }
-        function ConfirmDelete(el,title) {
-        let form = el.parentNode;
-        Swal.fire({
-            title: title,
-            showDenyButton: true,
-            confirmButtonText: `Yakin`,
-            denyButtonText: `Batal`,
-        }).then((result) => {
-            if (result.isConfirmed) {
-                form.submit();
-            } else if (result.isDenied) {
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Batal',
-                    text: 'Aksi Dibatalkan'
-                });
+
+        function hidealldd(el = false) {
+            el = el==false ? '' : el.getElementsByClassName("dropdown-menu")[0];
+            let dd = document.querySelectorAll(".dropdown-menu");
+            for(each of dd){
+                if(each != el){
+                    each.classList.add("hidden");
+                }
             }
-        })
-    }
+
+        }
+
+        function ConfirmDelete(el,title) {
+            let form = el.parentNode;
+            Swal.fire({
+                title: title,
+                showDenyButton: true,
+                confirmButtonText: `Yakin`,
+                denyButtonText: `Batal`,
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    form.submit();
+                } else if (result.isDenied) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Batal',
+                        text: 'Aksi Dibatalkan'
+                    });
+                }
+            })
+        }
+
+        function removeWishList(params) {
+            var request = new XMLHttpRequest();
+            request.open('GET', params, true);
+            request.onload = function() {
+                if (this.status >= 200 && this.status < 400) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Berhasil',
+                        text: 'Wishlist Berhasil dihapus'
+                    });
+                    setInterval(() => {
+                        location.reload();
+                    }, 1000);
+                }
+            };
+            // request.onerror = function() {
+            // There was a connection error of some sort
+            // };
+            request.send();
+        }
     </script>
     @include('js/scroll')
     @yield('script')

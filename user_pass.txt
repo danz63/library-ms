@@ -1,0 +1,5 @@
+_____________________________
+username    |       password
+-----------------------------
+hiki        |       hiki
+kazuma      |       kazuma

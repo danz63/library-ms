@@ -43,6 +43,14 @@ class BooksController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            'title' => 'required|unique:books',
+            'writers' => 'required',
+            'publishers' => 'required',
+            'year' => 'required',
+            'bookshelfs' => 'required',
+            'image' => 'required|file|image|mimes:jpeg,png,jpg|max:2048'
+        ]);
         $file = $request->file('image');
         $splt = explode('.', $file->getClientOriginalName());
         $file_name = time() . "." . $splt[count($splt) - 1];

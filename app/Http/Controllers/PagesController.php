@@ -50,7 +50,6 @@ class PagesController extends Controller
                     'username' => $user->username,
                     'name' => $user->name,
                     'access_id' => $user->access_id
-
                 ];
                 session($data);
                 return redirect('/')->with('flash', [
@@ -116,7 +115,9 @@ class PagesController extends Controller
                 ->join('categories', 'tags.category_id', '=', 'categories.id')
                 ->where('tags.category_id', '=', $request->get('category'))
                 ->get();
-            $message = "Buku Dengan Kategori '" . $books[0]->category_name . "'";
+            if (count($books) > 0) {
+                $message = "Buku Dengan Kategori '" . $books[0]->category_name . "'";
+            }
         } elseif ($request->get('writer')) {
             $books = DB::table('creations')
                 ->select("creations.*", "books.*", "writers.name as writer_name")
@@ -132,7 +133,9 @@ class PagesController extends Controller
                 ->join('publishers', 'publications.publisher_id', '=', 'publishers.id')
                 ->where('publications.publisher_id', '=', $request->get('publisher'))
                 ->get();
-            $message = "Buku Cetakan '" . $books[0]->publisher_name . "'";
+            if (count($books) > 0) {
+                $message = "Buku Cetakan '" . $books[0]->publisher_name . "'";
+            }
         } else {
             $books = DB::table('books')->get();
         }
@@ -144,7 +147,13 @@ class PagesController extends Controller
         return view('pages.catalogs', $data);
     }
 
-    public function transactions()
+    public static function _forbiden()
     {
+        return view('template/403');
+    }
+
+    public static function _faq()
+    {
+        return view('template/faq');
     }
 }
