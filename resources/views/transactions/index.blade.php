@@ -11,6 +11,18 @@ $notifications = getNotifications();
     }
 }
 </script>
+{{-- 
+    Status Table Peminjaman
+    default peberian pada method addWishList()
+    0 => 'belum diajukan peminjaman oleh member'
+    Diubah oleh method ApplyLoan()
+    1 => 'sudah diajukan peminjaman oleh member, belum dikonfirmasi admin'
+    
+    di proses oleh function response
+    2 => 'sudah dikonfirmasi admin (buku fisik belu diambil)'
+    3 => 'buku sudah diambil (masa peminjaman)'
+    4 => 'buku sudah dikembalikan' 
+--}}
 <div class="gradient h-10"></div>
 <section class="bg-white pb-8">
     <div class="relative mt-12 lg:-mt-8 sm:mt-0 gradient">

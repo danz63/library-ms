@@ -18,6 +18,17 @@ class TransactionController extends Controller
 
     public function addWishList(Request $request)
     {
+        $isBorrowing = DB::table('borrows')
+            ->whereBetween('status', [1, 3])
+            ->doesntExist();
+        if (!$isBorrowing) {
+            $res = [
+                'icon' => 'warning',
+                'title' => 'Maaf',
+                'text' => 'Anda Masih dalam masa peminjaman atau pengajuan pinjaman'
+            ];
+            return json_encode($res);
+        }
         $isExist = DB::table('borrows')
             ->where([
                 ['user_id', $request->user_id],
@@ -39,6 +50,12 @@ class TransactionController extends Controller
             'created_at' => date('Y-m-d H:i:s')
         ];
         DB::table('detail_borrows')->insert($data);
+        $res = [
+            'icon' => 'success',
+            'title' => 'Sukses',
+            'text' => 'Buku Sukses Ditambahkan dalam Keranjang Wishlist'
+        ];
+        return json_encode($res);
     }
 
     public function removeWishList($id)

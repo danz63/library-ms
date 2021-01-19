@@ -53,7 +53,7 @@
                                 class="w-full lg:w-auto p-3 text-gray-800 text-center border border-b text-center block lg:table-cell relative lg:static">
                                 <span
                                     class="lg:hidden absolute top-0 left-0 bg-blue-200 px-2 py-1 text-xs font-bold uppercase">Aksi</span>
-                                <button value="{{ $bs->id }}"
+                                <button onclick="window.location='{{ url('pages/books?bookshelf='.$bs->id) }}'"
                                     class="bg-teal-700 text-gray-200 hover:bg-teal-500 px-2 py-1 text-sm rounded mx-1 focus:outline-none focus:shadow-outline">
                                     <i class="fas fa-sm fa-info-circle mr-1"></i>Daftar Buku
                                 </button>

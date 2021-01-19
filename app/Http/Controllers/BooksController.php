@@ -19,7 +19,7 @@ class BooksController extends Controller
      */
     public function index()
     {
-        $books = DB::table('books')->get();
+        $books = DB::table('books')->where('status', 1)->get();
         return view('books.index', ['books' => $books]);
     }
 
@@ -58,6 +58,7 @@ class BooksController extends Controller
         $file->move($upload_path, $file_name);
         $data = [
             'title' => $request->title,
+            'status' => 1,
             'images' => $file_name,
             'created_at' => date('Y-m-d H:i:s')
         ];
@@ -92,7 +93,10 @@ class BooksController extends Controller
      */
     public function edit($id)
     {
-        //
+        $book = DB::table('books')->where('id', $id)->first();
+        $options = $this->getAllOptions();
+        $options = json_decode($options);
+        return view('books/edit', ['options' => $options, 'book' => $book]);
     }
 
     /**
@@ -102,7 +106,7 @@ class BooksController extends Controller
      * @param  \App\Models\Books  $book
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update()
     {
         //
     }

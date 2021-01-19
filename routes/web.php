@@ -88,6 +88,7 @@ Route::delete('/writers/destroy/{id}', [WritersController::class, 'destroy']);
 // Penanganan Buku (Books)
 Route::get('/books', [BooksController::class, 'index']);
 Route::get('/books/create', [BooksController::class, 'create']);
+Route::get('/books/edit/{id}', [BooksController::class, 'edit']);
 Route::post('/books/store', [BooksController::class, 'store']);
 
 

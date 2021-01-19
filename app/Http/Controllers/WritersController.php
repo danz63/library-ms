@@ -98,7 +98,7 @@ class WritersController extends Controller
         return redirect('/writers')->with('flash', [
             'icon' => 'success',
             'title' => 'Success',
-            'text' => 'Data Berhasil Ditambahkan!'
+            'text' => 'Data Berhasil Diperbaharui!'
         ]);
     }
 

@@ -28,8 +28,8 @@ class CreateUsersTable extends Migration
         DB::table('users')->insert([
             ['username' => 'root', 'name' => 'Super User', 'address' => 'Indonesia', 'image' => 'root.png', 'password' => password_hash('secretpassword', PASSWORD_DEFAULT), 'access_id' => 1, 'created_at' => date('Y-m-d H:i:s')],
             ['username' => 'member', 'address' => 'Indonesia', 'name' => 'Member Library', 'image' => 'member.png', 'password' => password_hash('secretpassword', PASSWORD_DEFAULT), 'access_id' => 2, 'created_at' => date('Y-m-d H:i:s')],
-            ['username' => 'hiki', 'name' => 'Hikigaya Hachiman', 'address' => 'Jepun', 'image' => 'member.png', 'password' => password_hash('kazuma', PASSWORD_DEFAULT), 'access_id' => 2, 'created_at' => '2020-12-21 09:48:48'],
-            ['username' => 'kazuma', 'name' => 'Satou Kazuma', 'address' => 'Isekai', 'image' => 'member.png', 'password' => password_hash('hiki', PASSWORD_DEFAULT), 'access_id' => 2, 'created_at' => '2021-01-12 03:23:53'],
+            ['username' => 'hiki', 'name' => 'Hikigaya Hachiman', 'address' => 'Jepun', 'image' => 'member.png', 'password' => password_hash('hiki', PASSWORD_DEFAULT), 'access_id' => 2, 'created_at' => '2020-12-21 09:48:48'],
+            ['username' => 'kazuma', 'name' => 'Satou Kazuma', 'address' => 'Isekai', 'image' => 'member.png', 'password' => password_hash('kazuma', PASSWORD_DEFAULT), 'access_id' => 2, 'created_at' => '2021-01-12 03:23:53'],
             ['username' => 'mjeaycock0', 'name' => 'Monty Jeaycock', 'address' => 'Indonesia', 'image' => 'member.png', 'password' => password_hash('mjeaycock0', PASSWORD_DEFAULT), 'access_id' => 2, 'created_at' => '2020-12-13 03:48:44'],
             ['username' => 'bhurle1', 'name' => 'Bevan Hurle', 'address' => 'Indonesia', 'image' => 'member.png', 'password' => password_hash('bhurle1', PASSWORD_DEFAULT), 'access_id' => 2, 'created_at' => '2020-12-14 01:03:42'],
             ['username' => 'rmorrison2', 'name' => 'Rollo Morrison', 'address' => 'Indonesia', 'image' => 'member.png', 'password' => password_hash('rmorrison2', PASSWORD_DEFAULT), 'access_id' => 2, 'created_at' => '2021-01-05 11:28:57'],

@@ -93,7 +93,14 @@
         var xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = function () {
             if (this.readyState == 4 && this.status == 200) {
-                location.reload();
+                let res = JSON.parse(this.responseText);
+                Swal.fire({
+                    icon: res.icon,
+                    title: res.title,
+                    text: res.text,
+                }).then(() => {
+                    location.reload();
+                });
             }
         };
         xhttp.open("POST", data.url, true);
