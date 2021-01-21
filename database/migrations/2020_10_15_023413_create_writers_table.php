@@ -26,7 +26,9 @@ class CreateWritersTable extends Migration
             ['id' => '4', 'name' => 'Awan Pribadi Basuki', 'created_at' => date('Y-m-d H:i:s')],
             ['id' => '5', 'name' => 'Wikaria Ghazali', 'created_at' => date('Y-m-d H:i:s')],
             ['id' => '6', 'name' => 'Lutfi Gani', 'created_at' => date('Y-m-d H:i:s')],
-            ['id' => '7', 'name' => 'Suyanto', 'created_at' => date('Y-m-d H:i:s')]
+            ['id' => '7', 'name' => 'Suyanto', 'created_at' => date('Y-m-d H:i:s')],
+            ['id' => '8', 'name' => ' Sidiq Syamsul Hidayat', 'created_at' => date('Y-m-d H:i:s')],
+            ['id' => '9', 'name' => ' Rinaldi Munir', 'created_at' => date('Y-m-d H:i:s')]
         ]);
     }
 

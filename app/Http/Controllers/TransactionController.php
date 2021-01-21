@@ -19,6 +19,7 @@ class TransactionController extends Controller
     public function addWishList(Request $request)
     {
         $isBorrowing = DB::table('borrows')
+            ->where('user_id', session('user_id'))
             ->whereBetween('status', [1, 3])
             ->doesntExist();
         if (!$isBorrowing) {
@@ -43,6 +44,25 @@ class TransactionController extends Controller
             $borrow_id = DB::table('borrows')->insertGetId($data);
         } else {
             $borrow_id = $isExist->first()->id;
+            $detail_borrows = DB::table('detail_borrows')
+                ->where('borrow_id', $borrow_id);
+            if ($detail_borrows->count() >= 2) {
+                $res = [
+                    'icon' => 'warning',
+                    'title' => 'Maaf',
+                    'text' => 'Peminjaman buku melebihi batas'
+                ];
+                return json_encode($res);
+            }
+            $arr_book_id = $detail_borrows->pluck('book_id')->toArray();
+            if (in_array($request->book_id, $arr_book_id)) {
+                $res = [
+                    'icon' => 'warning',
+                    'title' => 'Maaf',
+                    'text' => 'Buku Sudah Ada dalam wishlist'
+                ];
+                return json_encode($res);
+            }
         }
         $data = [
             'borrow_id' => $borrow_id,
@@ -80,7 +100,7 @@ class TransactionController extends Controller
 
     public function data($list)
     {
-        $actions = ['wishlist', 'applied', 'confirmed', 'loaned', 'expired', 'returned'];
+        $actions = ['wishlist', 'applied', 'confirmed', 'loaned', 'returned'];
         $param = array_search($list, $actions);
         $borrows = DB::table('borrows')
             ->select('borrows.*', 'users.name')
@@ -91,7 +111,15 @@ class TransactionController extends Controller
             $borrows = DB::table('borrows')
                 ->select('borrows.*', 'users.name')
                 ->join('users', 'borrows.user_id', 'users.id')
-                ->whereRaw('TIMESTAMPDIFF(DAY, updated_at, CURRENT_TIMESTAMP) > 7')
+                ->whereRaw('TIMESTAMPDIFF(DAY, borrows.updated_at, CURRENT_TIMESTAMP) > 5')
+                ->get();
+        }
+        if ($list == 'loaned') {
+            $borrows = DB::table('borrows')
+                ->select('borrows.*', 'users.name')
+                ->join('users', 'borrows.user_id', 'users.id')
+                ->where('status', $param)
+                ->whereRaw('TIMESTAMPDIFF(DAY, borrows.updated_at, CURRENT_TIMESTAMP) <= 5')
                 ->get();
         }
         $relation = DB::table('detail_borrows')
@@ -107,6 +135,23 @@ class TransactionController extends Controller
         return $data;
     }
 
+    public function history()
+    {
+        $query = DB::table('borrows')
+            ->where('user_id', session('user_id'));
+        $borrows = $query->get();
+        $arr_b_id = $query->pluck('id')->toArray();
+        $d_borrows = DB::table('detail_borrows')
+            ->leftJoin('books', 'detail_borrows.book_id', 'books.id')
+            ->whereIn('borrow_id', $arr_b_id)
+            ->get();
+        $data = [
+            'borrows' => $borrows,
+            'detail' => $d_borrows
+        ];
+        return view('transactions.user_index', $data);
+    }
+
     public function response($list, $borrow_id)
     {
         switch ($list) {
@@ -116,12 +161,12 @@ class TransactionController extends Controller
                 break;
             case 'loaned':
                 $param = ['status' => 3, 'updated_at' => date('Y-m-d H:i:s')];
-                $text = 'Sukses Dikonfirmasi, Estimasi pengembalian buku adalah ' . date('d-m-Y', date_add(time(), '+ 7 days'));
+                $text = 'Sukses Dikonfirmasi, Estimasi pengembalian buku adalah ' . date('d-m-Y', strtotime('+ 7 days'));
                 break;
 
             case 'returned':
-                $param = ['status' => 4];
-                $text = 'Sukses Dikonfirmasi, Estimasi pengembalian buku adalah' . date_add(time(), '+ 7 days');
+                $param = ['status' => 4, 'created_at' => date('Y-m-d H:i:s'), 'updated_at' => null];
+                $text = 'Pengembalian dikonfirmasi';
                 break;
 
             default:

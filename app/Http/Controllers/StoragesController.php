@@ -15,4 +15,13 @@ class StoragesController extends Controller
             'created_at' => date("Y-m-d H:i:s")
         ]);
     }
+    public static function _update($book_id, $bookshelf_id)
+    {
+        DB::table('storages')
+            ->where('book_id', $book_id)
+            ->update([
+                'bookshelfs_id' => $bookshelf_id,
+                'updated_at' => date("Y-m-d H:i:s")
+            ]);
+    }
 }

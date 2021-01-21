@@ -23,11 +23,12 @@ function getCategoriesOfBooks($id)
 
 function getPublisherOfBooks($id)
 {
-    return DB::table('publications')
+    $publishers = DB::table('publications')
         ->select('publications.*', 'publishers.id as publisher_id', 'publishers.name')
         ->leftjoin('publishers', 'publications.publisher_id', '=', 'publishers.id')
         ->where('publications.book_id', '=', $id)
         ->first();
+    return $publishers;
 }
 
 function getStoragesOfBook($id)
@@ -89,9 +90,8 @@ function getNotifications()
         $borrows = DB::table('borrows')
             ->select('id', 'status')
             ->where('user_id', '=',  session('user_id'))
-            ->whereIn('status', [1, 4])
+            ->whereBetween('status', [1, 4])
             ->first();
-        // dd($borrows);
         if ($borrows === null) {
             return [
                 'message' => "Tidak Ada Notifikasi",
@@ -217,4 +217,47 @@ function nextAction($list)
     $actions = ['wishlist', 'applied', 'confirmed', 'loaned', 'expired', 'returned'];
     $nextAction = array_search($list, $actions);
     return $actions[++$nextAction];
+}
+
+function LoanStatus($status = 0, $exp = false)
+{
+    $response = new stdClass();
+    switch ($status) {
+        case 1:
+            $response->button = true;
+            $response->color = 'yellow-300';
+            $response->information = 'Sedang Diajukan';
+            $response->explanation = 'Peminjaman ini sedang Ajukan, Mohon Tunggu Konfirmasi Admin';
+            break;
+        case 2:
+            $response->button = false;
+            $response->color = 'blue-200';
+            $response->information = 'Terkonfirmasi';
+            $response->explanation = 'Peminjaman ini telah dikonfirmasi admin, silahkan datang untuk mengambilnya';
+            break;
+
+        case 3:
+            $response->button = false;
+            $color = strtotime($exp . '+ 7 days') < time() ? 'red-200' : 'blue-200';
+            $info = strtotime($exp . '+ 7 days') < time() ? 'Sudah Berakhir' : 'Sedang dipinjam';
+            $explan = strtotime($exp . '+ 7 days') < time() ? 'Peminjaman ini telah habis, berakhir pada ' . parsingDate(date('Y-m-d', strtotime($exp . '+ 7 days'))) : 'Peminjaman ini sedang berlangsung, Pastikan kembalikan sebelum ' . parsingDate(date('Y-m-d', strtotime($exp . '+ 7 days')));
+            $response->color = $color;
+            $response->information = $info;
+            $response->explanation = $explan;
+            break;
+        case 4:
+            $response->button = false;
+            $response->color = 'blue-200';
+            $response->information = 'Dikembalikan';
+            $response->explanation = 'Buku-buku sudah dikembalikan';
+            break;
+
+        default:
+            $response->button = true;
+            $response->color = 'gray-300';
+            $response->information = 'Belum Diajukan';
+            $response->explanation = 'Peminjaman ini belum Anda Ajukan, Silahkan Ajukan dengan klik ikon <i class="fa fa-fw fa-list-alt"></i> diatas dan klik Tombol \'Ajukan Peminjaman\'';
+            break;
+    }
+    return $response;
 }

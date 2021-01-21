@@ -81,12 +81,17 @@ $notifications = getNotifications();
                                 href="{{ url('transaction/list/returned') }}" id="returned">Sudah Dikembalikan</a>
                         </li>
                     </ul>
-                    <select class="hidden sm:flex md:flex lg:hidden xl:hidden" onchange="window.location=this.value;">
-                        <option value="{{ url('transaction/list/wishlist') }}">Wishlist</option>
-                        <option value="{{ url('transaction/list/applied') }}">Menunggu Konfirmasi</option>
-                        <option value="{{ url('transaction/list/loaned') }}">Sedang Dipinjam</option>
-                        <option value="{{ url('transaction/list/expired') }}">Hampir Habis</option>
-                        <option value="{{ url('transaction/list/returned') }}">Sudah Dikembalikan</option>
+                    <select
+                        class="hidden sm:flex md:flex lg:hidden xl:hidden shadow appearance-none border 
+                    border-blue-500 focus:outline-none rounded w-full py-2 px-3 text-gray-700 leading-tight  transition duration-300"
+                        onchange="window.location=this.value;">
+                        <option value="{{ url('transaction/list/wishlist') }}" id="opt_wishlist">Wishlist</option>
+                        <option value="{{ url('transaction/list/applied') }}" id="opt_applied">Menunggu Konfirmasi
+                        </option>
+                        <option value="{{ url('transaction/list/loaned') }}" id="opt_loaned">Sedang Dipinjam</option>
+                        <option value="{{ url('transaction/list/expired') }}" id="opt_expired">Hampir Habis</option>
+                        <option value="{{ url('transaction/list/returned') }}" id="opt_returned">Sudah Dikembalikan
+                        </option>
                     </select>
                 </div>
                 <table class="border-collapse w-full" id="Table">
@@ -107,9 +112,18 @@ $notifications = getNotifications();
                                 @if ($active_tab=='loaned')
                                 Waktu Peminjaman
                                 @else
+                                @if ($active_tab=='expired')
+                                Tenggat Waktu Pengembalian
+                                @else
+                                @if ($active_tab=='returned')
+                                Waktu Pengembalian
+                                @else
                                 Waktu
                                 @endif
+                                @endif
+                                @endif
                             </th>
+                            @if ($active_tab!='returned')
                             <th
                                 class="p-3 font-bold uppercase bg-gray-200 text-gray-600 border border-gray-300 hidden lg:table-cell w-64">
                                 @if ($active_tab=='loaned')
@@ -118,6 +132,7 @@ $notifications = getNotifications();
                                 Konfirmasi
                                 @endif
                             </th>
+                            @endif
                         </tr>
                     </thead>
                     <tbody>
@@ -147,14 +162,31 @@ $notifications = getNotifications();
                                 class="w-full lg:w-auto p-3 text-gray-800 text-center border border-b block lg:table-cell relative lg:static">
                                 <span
                                     class="lg:hidden absolute top-0 left-0 bg-blue-200 px-2 py-1 text-xs font-bold uppercase">
+                                    @if ($active_tab=='loaned')
                                     Waktu Peminjaman
+                                    @else
+                                    @if ($active_tab=='expired')
+                                    Tenggat Waktu Pengembalian
+                                    @else
+                                    @if ($active_tab=='returned')
+                                    Waktu Pengembalian
+                                    @else
+                                    Waktu
+                                    @endif
+                                    @endif
+                                    @endif
                                 </span>
                                 @if ($active_tab=='loaned')
                                 {{ parsingDate($r->updated_at) }}
                                 @else
+                                @if ($active_tab=='expired')
+                                {{ parsingDate(date('Y-m-d H:i:s',strtotime($r->updated_at.'+ 7 days'))) }}
+                                @else
                                 {{ parsingDate($r->created_at) }}
                                 @endif
+                                @endif
                             </td>
+                            @if ($active_tab!='returned')
                             <td
                                 class="w-full lg:w-auto p-3 text-gray-800 text-center border border-b block lg:table-cell relative lg:static">
                                 <span
@@ -178,10 +210,14 @@ $notifications = getNotifications();
                                     @if ($active_tab=='confirmed')
                                     Pengambilan
                                     @endif
+                                    @if ($active_tab=='expired')
+                                    Pengembalian
+                                    @endif
                                 </a>
                                 @endif
                                 @endif
                             </td>
+                            @endif
                         </tr>
                         @endforeach
                     </tbody>
@@ -198,6 +234,8 @@ $notifications = getNotifications();
         let tab = document.getElementById("{{ $active_tab }}");
         tab.classList.add("border-l","border-t","border-r","rounded-t");
         tab.parentElement.classList.add("-mb-px");
+        let opt = document.getElementById("opt_{{ $active_tab }}");
+        opt.setAttribute('selected','selected');
     }
 </script>
 @include('js/datatable')

@@ -90,6 +90,8 @@ Route::get('/books', [BooksController::class, 'index']);
 Route::get('/books/create', [BooksController::class, 'create']);
 Route::get('/books/edit/{id}', [BooksController::class, 'edit']);
 Route::post('/books/store', [BooksController::class, 'store']);
+Route::patch('/books/update', [BooksController::class, 'update']);
+Route::delete('/books/destroy/{id}', [BooksController::class, 'destroy']);
 
 
 // Penanganan Peminjaman
@@ -97,4 +99,5 @@ Route::post('/transaction/add_wishlist', [TransactionController::class, 'addWish
 Route::get('/transaction/remove_wishlist/{id}', [TransactionController::class, 'removeWishList']);
 Route::get('/transaction/apply_loan', [TransactionController::class, 'ApplyLoan']);
 Route::get('/transaction/list/{list}', [TransactionController::class, 'index']);
+Route::get('/transaction/history', [TransactionController::class, 'history']);
 Route::get('/transaction/response/{list}/{id}', [TransactionController::class, 'response']);

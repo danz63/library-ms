@@ -44,7 +44,7 @@ class BooksController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'title' => 'required|unique:books',
+            'title' => 'required',
             'writers' => 'required',
             'publishers' => 'required',
             'year' => 'required',
@@ -106,9 +106,43 @@ class BooksController extends Controller
      * @param  \App\Models\Books  $book
      * @return \Illuminate\Http\Response
      */
-    public function update()
+    public function update(Request $request)
     {
-        //
+        $request->validate([
+            'title' => 'required',
+            'writers' => 'required',
+            'publishers' => 'required',
+            'year' => 'required',
+            'bookshelfs' => 'required'
+        ]);
+        if ($request->hasFile('image')) {
+            $file = $request->file('image');
+            $splt = explode('.', $file->getClientOriginalName());
+            $file_name = time() . "." . $splt[count($splt) - 1];
+            $upload_path = "img/books";
+            $file->move($upload_path, $file_name);
+            unlink(public_path($upload_path) . '/' . $request->oldimage);
+        } else {
+            $file_name = $request->oldimage;
+        }
+        $data = [
+            'title' => $request->title,
+            'status' => 1,
+            'images' => $file_name,
+            'created_at' => date('Y-m-d H:i:s')
+        ];
+        DB::table('books')
+            ->where('id', $request->id)
+            ->update($data);
+        StoragesController::_update($request->id, $request->bookshelfs);
+        CreationsController::_update($request->id, $request->writers);
+        PublicationsController::_update($request->id, $request->publishers, $request->year);
+        TagsController::_update($request->id, $request->categories);
+        return redirect('/books')->with('flash', [
+            'icon' => 'success',
+            'title' => 'Success',
+            'text' => 'Data Berhasil Diperbaharui!'
+        ]);
     }
 
     /**
@@ -119,16 +153,23 @@ class BooksController extends Controller
      */
     public function destroy($id)
     {
-        //
+        DB::table('books')
+            ->where('id', $id)
+            ->update(['status' => 0]);
+        return redirect('/books')->with('flash', [
+            'icon' => 'success',
+            'title' => 'Success',
+            'text' => 'Data Berhasil Dihapus!'
+        ]);
     }
 
     public function getAllOptions()
     {
         $res = [
-            'bookshelfs' => DB::table('bookshelfs')->get(),
-            'publishers' => DB::table('publishers')->get(),
-            'writers' => DB::table('writers')->get(),
-            'categories' => DB::table('categories')->get()
+            'bookshelfs' => DB::table('bookshelfs')->orderBy('name')->get(),
+            'publishers' => DB::table('publishers')->orderBy('name')->get(),
+            'writers' => DB::table('writers')->orderBy('name')->get(),
+            'categories' => DB::table('categories')->orderBy('name')->get()
         ];
         return json_encode($res);
     }

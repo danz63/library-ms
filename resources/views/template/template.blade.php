@@ -215,7 +215,8 @@
                                 @if (_isMember())
                                 <li>
                                     <a class="text-black no-underline hover:text-gray-800 hover:bg-gray-300 hover:text-underline block whitespace-no-wrap py-2 pr-4 pl-2 "
-                                        href="{{ url('/books') }}"><i class="fas fa-fw fa-book-reader mr-1"></i>Pinjaman
+                                        href="{{ url('/transaction/history') }}"><i
+                                            class="fas fa-fw fa-book-reader mr-1"></i>Pinjaman
                                     </a>
                                 </li>
                                 @endif

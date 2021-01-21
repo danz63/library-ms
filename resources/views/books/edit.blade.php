@@ -11,9 +11,11 @@
         <div class="d-block">
             <div
                 class="w-full md:w-3/5 mx-auto sm:items-center text-center md:text-left border border-blue-500 p-5 rounded bg-gray-100">
-                <form action="{{ url('/books/store') }}" method="POST" class="md:w-full sm:w-full sm:mx-auto"
+                <form action="{{ url('/books/update') }}" method="POST" class="md:w-full sm:w-full sm:mx-auto"
                     enctype="multipart/form-data">
                     @csrf
+                    @method('patch')
+                    <input type="hidden" name="id" value="{{ $book->id }}">
                     <div class="mb-4">
                         <label class="block text-sm font-bold mb-2 uppercase text-gray-700" for="title">
                             Judul
@@ -22,7 +24,7 @@
                             class="shadow appearance-none border 
                             focus:outline-none focus:shadow-outline rounded w-full py-2 px-3 text-gray-700 leading-tight transition duration-300"
                             id="title" name="title" type="text" placeholder="Judul" autocomplete="off"
-                            value="{{ old('title') }}" autofocus>
+                            value="{{ $book->title }}" autofocus>
                         <p class="text-red-800 text-xs italic">
                             @error('title')
                             {{ $message }}
@@ -40,7 +42,11 @@
                             id="writers" name="writers">
                             <option disabled selected>Pilih Penulis</option>
                             @foreach ($options->writers as $writer)
+                            @if (getAuthorOfBook($book->id)->writer_id == $writer->id)
+                            <option value="{{ $writer->id }}" selected>{{ $writer->name }}</option>
+                            @else
                             <option value="{{ $writer->id }}">{{ $writer->name }}</option>
+                            @endif
                             @endforeach
                         </select>
                         <p class="text-red-800 text-xs italic">
@@ -50,6 +56,7 @@
                             &nbsp;
                         </p>
                     </div>
+                    <?php $publisherOfBook = getPublisherOfBooks($book->id); ?>
                     <div class="mb-4">
                         <label class="block text-sm font-bold mb-2 uppercase text-gray-700" for="publishers">
                             Penerbit
@@ -58,9 +65,13 @@
                             class="shadow appearance-none border 
                             border-blue-500 focus:outline-none rounded w-full py-2 px-3 text-gray-700 leading-tight  transition duration-300"
                             id="publishers" name="publishers">
-                            <option selected>Pilih Penerbit</option>
+                            <option disabled selected>Pilih Penerbit</option>
                             @foreach ($options->publishers as $publisher)
+                            @if ($publisherOfBook->publisher_id == $publisher->id)
+                            <option value="{{ $publisher->id }}" selected>{{ $publisher->name }}</option>
+                            @else
                             <option value="{{ $publisher->id }}">{{ $publisher->name }}</option>
+                            @endif
                             @endforeach
                         </select>
                         <p class="text-red-800 text-xs italic">
@@ -78,7 +89,7 @@
                             class="shadow appearance-none border 
                             focus:outline-none focus:shadow-outline rounded w-full py-2 px-3 text-gray-700 leading-tight transition duration-300"
                             id="year" name="year" type="text" placeholder="Tahun" autocomplete="off"
-                            value="{{ old('year') }}" pattern="[0-9]{4}">
+                            value="{{ $publisherOfBook->year }}" pattern="[0-9]{4}">
                         <p class="text-red-800 text-xs italic">
                             @error('year')
                             {{ $message }}
@@ -96,7 +107,11 @@
                             id="bookshelfs" name="bookshelfs">
                             <option disabled selected>Pilih Rak</option>
                             @foreach ($options->bookshelfs as $bookshelf)
+                            @if (getStoragesOfBook($book->id) == $bookshelf->name)
+                            <option value="{{ $bookshelf->id }}" selected>{{ $bookshelf->name }}</option>
+                            @else
                             <option value="{{ $bookshelf->id }}">{{ $bookshelf->name }}</option>
+                            @endif
                             @endforeach
                         </select>
                         <p class="text-red-800 text-xs italic">
@@ -106,6 +121,7 @@
                             &nbsp;
                         </p>
                     </div>
+                    <?php $categoriesSel = json_decode(getCategoriesOfBooks($book->id)->pluck('category_id')); ?>
                     <div class="mb-4">
                         <label class="block text-sm font-bold mb-2 uppercase text-gray-700">
                             Kategori
@@ -115,8 +131,14 @@
                         border-blue-500 focus:outline-none rounded w-full py-2 px-3 text-gray-700 leading-tight transition duration-300 grid grid-flow-row grid-cols-2 gap-4">
                             @foreach ($options->categories as $category)
                             <div class="font-bold inline text-sm">
+                                @if (in_array($category->id, $categoriesSel))
+                                <input type="checkbox" value="{{ $category->id }}" name="categories[]"
+                                    class="form-checkbox h-4 w-4 text-indigo-600 transition duration-150 ease-in-out"
+                                    checked>
+                                @else
                                 <input type="checkbox" value="{{ $category->id }}" name="categories[]"
                                     class="form-checkbox h-4 w-4 text-indigo-600 transition duration-150 ease-in-out">
+                                @endif
                                 <span class="py-2">{{ $category->name }}</span>
                             </div>
                             @endforeach
@@ -124,7 +146,7 @@
                     </div>
                     <div class="mb-4">
                         <label class="block text-sm font-bold mb-2 uppercase text-gray-700" for="image">
-                            Foto
+                            Foto (<span class="text-red-500 normal-case">Abaikan jika foto tidak diubah</span>)
                         </label>
                         <input class="shadow appearance-none border 
                         @if (session('status') === 'image') border-red-800
@@ -137,6 +159,7 @@
                             @enderror
                             &nbsp;
                         </p>
+                        <input type="hidden" name="oldimage" value="{{ $book->images }}">
                     </div>
                     <div class="flex items-center justify-between">
                         <button type="submit" name="submit" value="Submit"

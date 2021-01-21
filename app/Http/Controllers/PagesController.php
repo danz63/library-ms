@@ -105,7 +105,9 @@ class PagesController extends Controller
     {
         $message = false;
         if ($request->get('query')) {
-            $books = DB::table('books')->where('title', 'like', "%" . $request->get('query') . "%")->get();
+            $books = DB::table('books')
+                ->where('title', 'like', "%" . $request->get('query') . "%")
+                ->where('books.status', 1)->get();
             $message = "Hasil Pencarian '" . $request->get('query') . "'";
         } elseif ($request->get('category')) {
             $books = DB::table('tags')

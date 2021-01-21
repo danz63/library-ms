@@ -16,4 +16,13 @@ class CreationsController extends Controller
             'created_at' => date("Y-m-d H:i:s")
         ]);
     }
+    public static function _update($book_id, $writer_id)
+    {
+        DB::table('creations')
+            ->where('book_id', $book_id)
+            ->update([
+                'writer_id' => $writer_id,
+                'updated_at' => date("Y-m-d H:i:s")
+            ]);
+    }
 }
